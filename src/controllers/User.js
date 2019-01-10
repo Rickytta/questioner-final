@@ -1,10 +1,6 @@
 import users from '../models/users';
 
 class User {
-  constructor() {
-    // console.log(users);
-  }
-
   static checkUser(userId) {
     let checkUser = {};
     for (const key in users) {
@@ -25,6 +21,7 @@ class User {
 
     return checkUser;
   }
+
   /* signup */
   static signup(req, res) {
     const newUser = {
@@ -54,6 +51,37 @@ class User {
     return res.status(400).json({
       status: 400,
       error: 'User not created!',
+    });
+  }
+
+  /* login */
+  static login(req, res) {
+    let isUser = {};
+    users.forEach((user) => {
+      if (user.username === req.body.username && user.password === req.body.password) {
+        isUser = {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          otherName: user.otherName,
+          email: user.email,
+          phone: user.phone,
+          username: user.username,
+          registered: user.registered,
+          isAdmin: user.isAdmin
+        }
+      }
+    });
+
+    if (Object.keys(isUser).length > 0) {
+      return res.status(200).json({
+        status: 200,
+        data: isUser,
+      });
+    }
+    return res.status(400).json({
+      status: 400,
+      error: 'User not found!',
     });
   }
 }
