@@ -1,0 +1,608 @@
+/*----importing-fonts---*/
+/*-----light-font----*/
+@font-face {
+	font-family: 'open_sanslight';
+	src: url('../fonts/opensans_light_macroman/OpenSans-Light-webfont.eot');
+	src: url('../fonts/opensans_light_macroman/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/opensans_light_macroman/OpenSans-Light-webfont.woff') format('woff'),
+		url('../fonts/opensans_light_macroman/OpenSans-Light-webfont.ttf') format('truetype'),
+		url('../fonts/opensans_light_macroman/OpenSans-Light-webfont.svg#open_sanslight') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/*-----regular-font----*/
+@font-face {
+	font-family: 'open_sansregular';
+	src: url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.eot');
+	src: url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.woff') format('woff'),
+		url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.ttf') format('truetype'),
+		url('../fonts/opensans_regular_macroman/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/*-----semi-bold-font----*/
+@font-face {
+	font-family: 'open_sanssemibold';
+	src: url('../fonts/opensans_semibold_macroman/OpenSans-Semibold-webfont.eot');
+	src: url('../fonts/opensans_semibold_macroman/OpenSans-Semibold-webfont.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/opensans_semibold_macroman/OpenSans-Semibold-webfont.woff') format('woff'),
+		url('../fonts/opensans_semibold_macroman/OpenSans-Semibold-webfont.ttf') format('truetype'),
+		url('../fonts/opensans_semibold_macroman/OpenSans-Semibold-webfont.svg#open_sanssemibold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/*------logo font------*/
+@font-face {
+	font-family: 'orange juice';
+	font-style: normal;
+	font-weight: normal;
+	src: local('orange juice'), url('orange juice 2.0_0.woff') format('woff');
+}
+
+/*----//importing-fonts---*/
+body {
+	background: #fff;
+	font-family: 'open_sansregular';
+}
+
+/*---start-wrap-----*/
+.wrap {
+	width: 70%;
+	margin: 0 auto;
+}
+
+#page {
+	display: none;
+}
+
+/*---start-header----*/
+.header {
+	padding: 0.3em 0 0em;
+	border-bottom: 1px solid #eee;
+}
+
+.header-left {
+	float: left;
+	margin-top: 1em;
+}
+
+.logo a {
+	color: #ed194e;
+	font-family: 'open_sanssemibold';
+	font-size: 2.8em;
+}
+
+.header-right {
+	float: right;
+	width: 50%;
+}
+
+.top-nav ul li {
+	display: inline-block;
+}
+
+.top-nav ul li a {
+	color: #777777;
+	padding: 1.8em 0.8em;
+	display: block;
+	font-size: 1.2em;
+	transition: 0.5s all;
+	-webkit-transition: 0.5s all;
+	-moz-transition: 0.5s all;
+	-o-transition: 0.5s all;
+}
+
+.top-nav ul li a:hover {
+	color: rgb(237, 25, 78);
+}
+
+.top-nav {
+	float: left;
+}
+
+.sign-ligin-btns {
+	float: right;
+	margin-top: 1.8em;
+}
+
+.sign-ligin-btns ul li {
+	display: inline-block;
+	margin-left: 1em;
+}
+
+.sign-ligin-btns ul li a.signup span,
+.sign-ligin-btns ul li a.login span {
+	padding: 0.5em 1.8em 0.55em 1.8em;
+	display: block;
+	font-size: 1em;
+	transition: 0.5s all;
+	-webkit-transition: 0.5s all;
+	-moz-transition: 0.5s all;
+	-o-transition: 0.5s all;
+	border-radius: 0.15em;
+	-webkit-border-radius: 0.15em;
+	-moz-border-radius: 0.15em;
+	-o-border-radius: 0.15em;
+}
+
+.sign-ligin-btns ul li a.signup {
+	background: black;
+	color: #FFF;
+}
+
+.sign-ligin-btns ul li a.signup:hover {
+	background: #ed194e;
+}
+
+.sign-ligin-btns ul li a.login {
+	background: #ed194e;
+	color: #FFF;
+}
+
+.sign-ligin-btns ul li a.login:hover {
+	background: black;
+}
+
+
+/*--image/ photo credit to 
+Avatar of user William Stitt
+William Stitt
+@willpower
+
+William Stitt--*/
+.text-slider {
+	background: url(../images/headerimage.jpg) no-repeat 0px 0px;
+	background-size: 100% 120%;
+}
+
+/*----start-content---*/
+.top-grids {
+	padding: 3em 0 5em 0;
+	position: relative;
+}
+
+.top-grid {
+	width: 31.33%;
+	float: left;
+	margin-right: 2%;
+	text-align: center;
+	position: relative;
+}
+
+.top-grid img {
+	display: inline-block;
+}
+
+.top-grid span label {
+	font-size: 1.6em;
+	line-height: 1.8em;
+	color: #6B6B6B;
+}
+
+.top-grid span {
+	display: block;
+	width: 45px;
+	height: 45px;
+	border: 2px solid #ADACAC;
+	border-radius: 30em;
+	margin: 0.8em auto 1em;
+}
+
+.top-grid a {
+	display: block;
+	color: #6B6B6B;
+	font-size: 1.25em;
+}
+
+.top-grid:nth-child(3) {
+	margin-right: 0;
+}
+
+.product-pic {
+	min-height: 178px;
+}
+
+.frist-product-pic {
+	padding-top: 10px;
+	min-height: 120px;
+}
+
+.grids-border {
+	position: absolute;
+}
+
+/*---start-mid-grids----*/
+
+.paragraph {
+	text-align: center;
+	margin-bottom: 50px;
+	font-family: 'open_sansregular';
+	font-size: 22px;
+}
+
+.title2 {
+	font-family: 'open_sanssemibold';
+	font-size: 30px;
+	text-align: center;
+	text-decoration: underline;
+	margin-bottom: 20px;
+	color: #ed194e;
+}
+
+/*-------LOGIN STARTS HERE -------*/
+/* Login Container (default to float:right) */
+#loginContainer {
+	position: relative;
+	float: left;
+}
+
+/* Login Button */
+#loginButton {
+	float: right;
+	position: relative;
+	z-index: 30;
+	top: -3px;
+	cursor: pointer;
+}
+
+/* Login Button Text */
+#loginButton span {
+	display: block;
+	text-align: center;
+	border-radius: 0.15em;
+	-webkit-border-radius: 0.15em;
+	-moz-border-radius: 0.15em;
+	-o-border-radius: 0.15em;
+}
+
+/* Login Box */
+#loginBox {
+	position: absolute;
+	top: 66px;
+	right: 0;
+	display: none;
+	z-index: 999;
+	padding-bottom: 0.8em;
+	background: #fff;
+	border: 1px solid #eee;
+}
+
+/* If the Login Button has been clicked */
+#loginButton.active {
+	border-radius: 0.15em;
+}
+
+.active span:hover {
+	color: #FFF;
+}
+
+/* Login Form */
+#loginForm {
+	width: 270px;
+	z-index: 999;
+}
+
+#loginForm fieldset {
+	margin: 0 0 0px 0;
+	display: block;
+	border: 0;
+	padding: 0;
+}
+
+fieldset#body {
+	background: #fff;
+	padding: 10px 13px;
+	margin: 0;
+}
+
+#loginForm #checkbox {
+	width: auto;
+	margin: 7px 9px 0 0;
+	float: left;
+	padding: 0;
+	border: 0;
+	*margin: -3px 9px 0 0;
+	/* IE7 Fix */
+}
+
+#body label {
+	color: #777777;
+	display: block;
+	float: left;
+	line-height: 1.5em;
+}
+
+#loginForm #body fieldset label {
+	display: block;
+	color: #777;
+	font-size: 0.875em;
+	font-weight: normal;
+	text-align: center;
+	text-transform: uppercase;
+	line-height: 1.5em;
+}
+
+/* Default Input */
+#loginForm input {
+	width: 93.6%;
+	color: #3a454d;
+	padding: 8px 8px;
+	margin: 0.3em 0;
+	border: 1px solid #D8D8D8;
+	font-size: 0.875em;
+	font-family: 'open_sansregular';
+	transition: border-color 0.5s all;
+	-webkit-transition: border-color 0.5s all;
+	-moz-transition: border-color 0.5s all;
+	-o-transition: border-color 0.5s all;
+	border-radius: 0.15em;
+	-webkit-border-radius: 0.15em;
+	-moz-border-radius: 0.15em;
+	-o-border-radius: 0.15em;
+}
+
+#loginForm input:hover {
+	border: 1px solid #999;
+}
+
+.remeber {
+	margin-top: 0.5em;
+}
+
+/* Sign In Button */
+#loginForm #login {
+	color: #fff;
+	font-size: 0.875em;
+	font-weight: normal;
+	padding: 10px 15px;
+	text-transform: uppercase;
+	background: #F36EA7;
+	display: inline-block;
+	width: 100%;
+	cursor: pointer;
+	margin: 1em 0 0 0;
+	border: none;
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+	border-radius: 0.15em;
+	-webkit-border-radius: 0.15em;
+	-moz-border-radius: 0.15em;
+	-o-border-radius: 0.15em;
+}
+
+#loginButton span:hover {
+	color: #FFF;
+}
+
+#loginForm #login:hover {
+	background: #3D3D3D;
+}
+
+/* Forgot your password */
+#loginForm span {
+	display: block;
+	background: #fff;
+	padding: 0px 0px 0px 13px;
+}
+
+#loginForm span a {
+	color: #777;
+	font-size: 0.875em;
+}
+
+input:focus {
+	outline: none;
+}
+
+/* signup Container (default to float:right) */
+#signupContainer {
+	position: relative;
+	float: left;
+}
+
+/* Login Button */
+#signupButton {
+	float: right;
+	position: relative;
+	z-index: 30;
+	top: -3px;
+	cursor: pointer;
+}
+
+/* Login Button Text */
+#signupButton span {
+	display: block;
+	text-align: center;
+	border-radius: 0.15em;
+	-webkit-border-radius: 0.15em;
+	-moz-border-radius: 0.15em;
+	-o-border-radius: 0.15em;
+}
+
+/* Login Box */
+#signupBox {
+	position: absolute;
+	top: 66px;
+	right: 0;
+	display: none;
+	z-index: 999;
+	padding-bottom: 0.8em;
+	background: #fff;
+	border: 1px solid #eee;
+}
+
+/* If the Login Button has been clicked */
+#signupButton.active {
+	border-radius: 0.15em;
+}
+
+.active span:hover {
+	color: #FFF;
+}
+
+/* Login Form */
+#signupForm {
+	width: 270px;
+	z-index: 999;
+}
+
+#signupForm fieldset {
+	margin: 0 0 0px 0;
+	display: block;
+	border: 0;
+	padding: 0;
+}
+
+fieldset#signupbody {
+	background: #fff;
+	padding: 10px 13px;
+	margin: 0;
+}
+
+#signupForm #checkbox {
+	width: auto;
+	margin: 7px 9px 0 0;
+	float: left;
+	padding: 0;
+	border: 0;
+	*margin: -3px 9px 0 0;
+	/* IE7 Fix */
+}
+
+#signupbody label {
+	color: #777777;
+	display: block;
+	float: left;
+	line-height: 1.5em;
+}
+
+#signupForm #signupbody fieldset label {
+	display: block;
+	color: #777;
+	font-size: 0.875em;
+	font-weight: normal;
+	text-align: center;
+	text-transform: uppercase;
+	line-height: 1.5em;
+}
+
+#signupForm #signupbody fieldset label span {
+	display: inline-block;
+	padding: 0px;
+	font-size: 0.875em;
+	color: #F36EA7;
+}
+
+/* Default Input */
+#signupForm input[type="text"],
+#signupForm input[type="password"] {
+	width: 93.6%;
+	color: #3a454d;
+	padding: 8px 8px;
+	margin: 0.3em 0;
+	border: 1px solid #D8D8D8;
+	font-size: 0.875em;
+	font-family: 'open_sansregular';
+	transition: border-color 0.5s all;
+	-webkit-transition: border-color 0.5s all;
+	-moz-transition: border-color 0.5s all;
+	-o-transition: border-color 0.5s all;
+	border-radius: 0.15em;
+	-webkit-border-radius: 0.15em;
+	-moz-border-radius: 0.15em;
+	-o-border-radius: 0.15em;
+}
+
+#signupForm input:hover {
+	border: 1px solid #999;
+}
+
+.remeber {
+	margin-top: 0.5em;
+}
+
+/* Sign In Button */
+#signupForm #signup {
+	color: #fff;
+	font-size: 0.875em;
+	font-weight: normal;
+	padding: 10px 15px;
+	text-transform: uppercase;
+	background: #F36EA7;
+	display: inline-block;
+	width: 100%;
+	cursor: pointer;
+	margin: 1em 0 0 0;
+	border: none;
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+	border-radius: 0.15em;
+	-webkit-border-radius: 0.15em;
+	-moz-border-radius: 0.15em;
+	-o-border-radius: 0.15em;
+	font-family: 'open_sansregular';
+}
+
+#signupButton span:hover {
+	color: #FFF;
+}
+
+#signupForm #signup:hover {
+	background: #3D3D3D;
+}
+
+/* Forgot your password */
+#signupForm span {
+	display: block;
+	background: #fff;
+	padding: 0px 0px 0px 13px;
+}
+
+#signupForm span a {
+	color: #777;
+	font-size: 0.875em;
+}
+
+input:focus {
+	outline: none;
+}
+
+@media only screen and (max-width:1440px) and (min-width:1366px) {
+	.wrap {
+		width: 75%;
+	}
+}
+
+@media only screen and (max-width:1366px) and (min-width:1280px) {
+	.wrap {
+		width: 80%;
+	}
+
+	.text-slider {
+		background-size: 100% 100%;
+	}
+}
+
+@media only screen and (max-width:1280px) and (min-width:1024px) {
+	.wrap {
+		width: 80%;
+	}
+
+	.text-slider {
+		background-size: 100% 100%;
+	}
+
+	.header-right {
+		width: 53%;
+	}
+}
