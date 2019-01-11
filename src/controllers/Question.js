@@ -55,7 +55,29 @@ class Question {
       error: 'Questions not found!',
     });
   }
+  /* get by id */
+  static getQuestion(req, res) {
+    let question = {};
 
+    for (let key in questions) {
+      if (questions[key].id === parseInt(req.params.questionId)) {
+        question = questions[key];
+        break;
+      }
+    }
+
+    if (Object.keys(question).length > 0) {
+      return res.status(200).json({
+        status: 200,
+        data: question,
+      });
+    }
+
+    return res.status(400).json({
+      status: 400,
+      error: 'Question not found!',
+    });
+  }
 }
 
 export default Question;
