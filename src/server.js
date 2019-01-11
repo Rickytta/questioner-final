@@ -9,6 +9,7 @@ app.use(express.urlencoded({
 
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/meetups', meetupsRouter);
+app.use('/api/v1/questions', questionsRouter);
 
 const port = process.env.PORT || 3001;
 
