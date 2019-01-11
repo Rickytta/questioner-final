@@ -49,6 +49,19 @@ class Rsvp {
       error: 'Rsvp not posted!',
     });
   }
+  /* get all rsvps */
+  static getAllRsvps(req, res) {
+    if (Object.keys(rsvps).length > 0) {
+      return res.status(200).json({
+        status: 200,
+        data: rsvps,
+      });
+    }
 
+    return res.status(400).json({
+      status: 400,
+      error: 'Rsvps not found!',
+    });
+  }
 }
 export default Rsvp;
