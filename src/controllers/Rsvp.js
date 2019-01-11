@@ -63,5 +63,28 @@ class Rsvp {
       error: 'Rsvps not found!',
     });
   }
+  /* get by id */
+  static getRsvp(req, res) {
+    let rsvp = {};
+
+    for (let key in rsvps) {
+      if (rsvps[key].id === parseInt(req.params.rsvpId)) {
+        rsvp = rsvps[key];
+        break;
+      }
+    }
+
+    if (Object.keys(rsvp).length > 0) {
+      return res.status(200).json({
+        status: 200,
+        data: rsvp,
+      });
+    }
+
+    return res.status(400).json({
+      status: 400,
+      error: 'Rsvp not found!',
+    });
+  }
 }
 export default Rsvp;
