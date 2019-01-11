@@ -101,6 +101,30 @@ class Meetup {
       error: 'No upcoming meetups!',
     });
   }
+  /* delete a meetup */
+  static deleteMeetup(req, res) {
+    const meetupsNumber = meetups.length;
+    let NewMeetupsNumber = meetups.length;
+    for (let i in meetups) {
+      if (meetups[i].id === parseInt(req.params.meetupId)) {
+        meetups.splice(i, 1);
+        NewMeetupsNumber -= 1;
+        break;
+      }
+    }
+
+    if (NewMeetupsNumber < meetupsNumber) {
+      return res.status(200).json({
+        status: 200,
+        data: 'meetup deleted',
+      });
+    }
+
+    return res.status(400).json({
+      status: 400,
+      error: 'Meetup not deleted!',
+    });
+  }
 }
 
 export default Meetup;
