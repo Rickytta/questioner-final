@@ -41,6 +41,20 @@ class Meetup {
       error: 'Meetup not created!',
     });
   }
+  /* get all meetups */
+  static getAllMeetups(req, res) {
+    if (Object.keys(meetups).length > 0) {
+      return res.status(200).json({
+        status: 200,
+        data: meetups,
+      });
+    }
+
+    return res.status(400).json({
+      status: 400,
+      error: 'Meetups not found!',
+    });
+  }
 
 }
 
