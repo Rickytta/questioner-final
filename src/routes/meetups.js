@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/', Meetup.create);
 router.get('/', Meetup.getAllMeetups);
 router.get('/:meetupId', Meetup.getMeetup);
+router.get('/upcoming', Meetup.getUpcomingMeetups);
 
 
 export default router;

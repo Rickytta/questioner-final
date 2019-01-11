@@ -78,7 +78,29 @@ class Meetup {
       error: 'Meetup not found!',
     });
   }
+  /* get upcoming meetups */
+  static getUpcomingMeetups(req, res) {
+    let upcomingMeetups = [];
 
+    for (let key in meetups) {
+      if (Date.now() < meetups[key].happeningOn) {
+        upcomingMeetups.push(meetups[key]);
+        break;
+      }
+    }
+
+    if (Object.keys(upcomingMeetups).length > 0) {
+      return res.status(200).json({
+        status: 200,
+        data: upcomingMeetups,
+      });
+    }
+
+    return res.status(400).json({
+      status: 400,
+      error: 'No upcoming meetups!',
+    });
+  }
 }
 
 export default Meetup;
