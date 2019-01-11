@@ -4,17 +4,17 @@ class User {
   static checkUser(userId) {
     let checkUser = {};
     for (const key in users) {
-      if (user[key].id === userId) {
+      if (users[key].id === userId) {
         checkUser = {
-          id: user[key].id,
-          firstName: user[key].firstName,
-          lastName: user[key].lastName,
-          otherName: user[key].otherName,
-          email: user[key].email,
-          phone: user[key].phone,
-          username: user[key].username,
-          registered: user[key].registered,
-          isAdmin: user[key].isAdmin
+          id: users[key].id,
+          firstName: users[key].firstName,
+          lastName: users[key].lastName,
+          otherName: users[key].otherName,
+          email: users[key].email,
+          phone: users[key].phone,
+          username: users[key].username,
+          registered: users[key].registered,
+          isAdmin: users[key].isAdmin
         }
       }
     }

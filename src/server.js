@@ -1,4 +1,7 @@
 import express from 'express';
+import usersRouter from './routes/users';
+import meetupsRouter from './routes/meetups';
+import questionsRouter from './routes/questions';
 
 const app = express();
 
