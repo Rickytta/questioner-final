@@ -78,6 +78,30 @@ class Question {
       error: 'Question not found!',
     });
   }
+  /* delete a question */
+  static deleteQuestion(req, res) {
+    const questionsNumber = questions.length;
+    let NewQuestionsNumber = questions.length;
+    for (let i in questions) {
+      if (questions[i].id === parseInt(req.params.questionId)) {
+        questions.splice(i, 1);
+        NewQuestionsNumber -= 1;
+        break;
+      }
+    }
+
+    if (NewQuestionsNumber < questionsNumber) {
+      return res.status(200).json({
+        status: 200,
+        data: 'question deleted',
+      });
+    }
+
+    return res.status(400).json({
+      status: 400,
+      error: 'Question not deleted!',
+    });
+  }
 }
 
 export default Question;
