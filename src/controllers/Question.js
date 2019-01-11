@@ -41,6 +41,21 @@ class Question {
       error: 'Question not posted!',
     });
   }
+  /* get all questions */
+  static getAllQuestions(req, res) {
+    if (Object.keys(questions).length > 0) {
+      return res.status(200).json({
+        status: 200,
+        data: questions,
+      });
+    }
+
+    return res.status(400).json({
+      status: 400,
+      error: 'Questions not found!',
+    });
+  }
+
 }
 
 export default Question;
