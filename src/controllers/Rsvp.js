@@ -86,5 +86,30 @@ class Rsvp {
       error: 'Rsvp not found!',
     });
   }
+
+  /* delete a rsvp */
+  static deleteRsvp(req, res) {
+    const rsvpsNumber = rsvps.length;
+    let NewRsvpsNumber = rsvps.length;
+    for (let i in rsvps) {
+      if (rsvps[i].id === parseInt(req.params.rsvpId)) {
+        rsvps.splice(i, 1);
+        NewRsvpsNumber -= 1;
+        break;
+      }
+    }
+
+    if (NewRsvpsNumber < rsvpsNumber) {
+      return res.status(200).json({
+        status: 200,
+        data: 'rsvp deleted',
+      });
+    }
+
+    return res.status(400).json({
+      status: 400,
+      error: 'Rsvp not deleted!',
+    });
+  }
 }
 export default Rsvp;
