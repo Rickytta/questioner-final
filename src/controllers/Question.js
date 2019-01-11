@@ -102,6 +102,37 @@ class Question {
       error: 'Question not deleted!',
     });
   }
+
+  /* vote a question */
+  static voteQuestion(req, res) {
+    let oldVotes = 0;
+    let newVotes = 0;
+    for (let i in questions) {
+      if (questions[i].id === parseInt(req.params.questionId)) {
+        oldVotes = questions[i].votes;
+
+        if (oldVotes === 0 && parseInt(req.body.vote) <= 0) {
+          break;
+        }
+
+        questions[i].votes = questions[i].votes + (parseInt(req.body.vote));
+        newVotes = questions[i].votes;
+        break;
+      }
+    }
+
+    if (oldVotes !== newVotes) {
+      return res.status(200).json({
+        status: 200,
+        data: 'Thanks for voting this question!',
+      });
+    }
+
+    return res.status(400).json({
+      status: 400,
+      error: 'Vote failed',
+    });
+  }
 }
 
 export default Question;
