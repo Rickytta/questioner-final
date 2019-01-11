@@ -55,6 +55,29 @@ class Meetup {
       error: 'Meetups not found!',
     });
   }
+  /* get by id */
+  static getMeetup(req, res) {
+    let meetup = {};
+
+    for (let key in meetups) {
+      if (meetups[key].id === parseInt(req.params.meetupId)) {
+        meetup = meetups[key];
+        break;
+      }
+    }
+
+    if (Object.keys(meetup).length > 0) {
+      return res.status(200).json({
+        status: 200,
+        data: meetup,
+      });
+    }
+
+    return res.status(400).json({
+      status: 400,
+      error: 'Meetup not found!',
+    });
+  }
 
 }
 
