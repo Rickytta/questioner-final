@@ -4,7 +4,7 @@ const meetups = [{
     location: 'Kigali Convention Center',
     images: ['../imagebank/css/css.jpg', 'http://imagebank/css/meetup7.jpg'],
     topic: 'Web designing without CSS framework',
-    happeningOn: 'December 12, 2018',
+    happeningOn: 1544565600000,
     tags: ['css', 'web', 'kigali']
   },
   {
@@ -13,7 +13,7 @@ const meetups = [{
     location: 'Kigali Institute of Science and technology',
     images: './assets/images/dev.jpg',
     topic: 'Test Driven Development',
-    happeningOn: 'January 27, 2019',
+    happeningOn: 1548540000000,
     tags: ['TDD', 'OOP', 'Javascript']
   }
 ];
