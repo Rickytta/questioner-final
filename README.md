@@ -9,7 +9,7 @@ Crowd-source questions for a meetup. ​ Questioner​​ helps the meetup organ
 
 ## Getting Started
 
-   These instructions will get you a copy of the project up and running on your local machine for development  and testing purposes. See deployment for notes on how to deploy the project on a live system.
+   These instructions will get you a copy of the project up and running on your local machine for development  and testing purposes.
 
 ## Prerequisites
 
@@ -28,7 +28,7 @@ Crowd-source questions for a meetup. ​ Questioner​​ helps the meetup organ
 
   This runs the following script on the background processes;
 
-      > nodemon app.js --exec babel-node --presets babel-preset-es2015`
+      > npm install --save-dev babel-watch`
 
   This command starts the dev server on port 3001.
 
