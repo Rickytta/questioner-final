@@ -59,3 +59,27 @@ describe('DELETE /api/v1/:questionId', () => {
     });
   });
 }); //end of test
+
+/* Downvote a question*/
+describe('PATCH /api/v1/questions/1/downvote', () => {
+  it('it should downvote a question', (done) => {
+    chai.request(app)
+      .patch('/api/v1/questions/1/downvote')
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        done();
+      });
+  });
+}); // end of test
+
+/* upvote a question*/
+describe('PATCH /api/v1/questions/1/upvote', () => {
+  it('it should upvote a question', (done) => {
+    chai.request(app)
+      .patch('/api/v1/questions/1/upvote')
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        done();
+      });
+  });
+}); // end of test
