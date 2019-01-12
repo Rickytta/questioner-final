@@ -6,6 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test mocha --compilers js:babel-register src/tests/meetups.js",
     "cover": "NODE_ENV=test istanbul cover _mocha -- --compilers js:babel-register src/tests/meetups.js",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "build": "babel src/server.js --out-dir build",
     "dev": "babel-watch src/server.js"
   },
