@@ -25,7 +25,7 @@ class User {
   /* signup */
   static signup(req, res) {
     const newUser = {
-      id: Math.ceil(Math.random() + 100),
+      id: Math.ceil(Math.random() * 100),
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       otherName: req.body.otherName,
@@ -33,7 +33,7 @@ class User {
       phone: req.body.phone,
       username: req.body.username,
       password: req.body.password,
-      registered: Date.now(),
+      registered: new Date(),
       isAdmin: req.body.isAdmin,
     };
 

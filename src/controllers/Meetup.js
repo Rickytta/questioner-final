@@ -16,7 +16,7 @@ class Meetup {
   /* create */
   static create(req, res) {
     const newMeetup = {
-      id: Math.ceil(Math.random() + 100),
+      id: Math.ceil(Math.random() * 100),
       createdOn: Date.now(),
       location: req.body.location,
       images: req.body.images,
@@ -85,7 +85,6 @@ class Meetup {
     for (let key in meetups) {
       if (Date.now() < meetups[key].happeningOn) {
         upcomingMeetups.push(meetups[key]);
-        break;
       }
     }
 

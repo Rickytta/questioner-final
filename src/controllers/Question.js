@@ -17,7 +17,7 @@ class Question {
   /* Create a question */
   static create(req, res) {
     const newQuestion = {
-      id: Math.ceil(Math.random() + 100),
+      id: Math.ceil(Math.random() * 100),
       createdOn: Date.now(),
       createdBy: req.body.createdBy,
       question: req.body.question,
