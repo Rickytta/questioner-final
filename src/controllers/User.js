@@ -13,7 +13,7 @@ class User {
           email: users[key].email,
           phone: users[key].phone,
           username: users[key].username,
-          registered: users[key].registered,
+          registered: new Date(users[key].registered).toDateString(),
           isAdmin: users[key].isAdmin
         }
       }
@@ -33,7 +33,7 @@ class User {
       phone: req.body.phone,
       username: req.body.username,
       password: req.body.password,
-      registered: new Date(),
+      registered: Date.now(),
       isAdmin: req.body.isAdmin,
     };
 
@@ -81,7 +81,7 @@ class User {
     }
     return res.status(400).json({
       status: 400,
-      error: 'User not found!',
+      error: 'User not found! check your inputs',
     });
   }
 }

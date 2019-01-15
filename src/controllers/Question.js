@@ -107,6 +107,7 @@ class Question {
   static voteQuestion(req, res) {
     let oldVotes = 0;
     let newVotes = 0;
+    let question = {};
     for (let i in questions) {
       if (questions[i].id === parseInt(req.params.questionId)) {
         oldVotes = questions[i].votes;
@@ -117,6 +118,7 @@ class Question {
 
         questions[i].votes = questions[i].votes + (parseInt(req.body.vote));
         newVotes = questions[i].votes;
+        question = Question.checkQuestion(questions[i].id);
         break;
       }
     }
@@ -124,7 +126,8 @@ class Question {
     if (oldVotes !== newVotes) {
       return res.status(200).json({
         status: 200,
-        data: 'Thanks for voting this question!',
+        data: question,
+        message: 'Thanks for voting this question!',
       });
     }
 
