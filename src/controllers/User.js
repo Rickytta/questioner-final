@@ -13,7 +13,7 @@ class User {
           email: users[key].email,
           phone: users[key].phone,
           username: users[key].username,
-          registered: users[key].registered,
+          registered: new Date(users[key].registered).toDateString(),
           isAdmin: users[key].isAdmin
         }
       }
@@ -25,7 +25,7 @@ class User {
   /* signup */
   static signup(req, res) {
     const newUser = {
-      id: Math.ceil(Math.random() + 100),
+      id: Math.ceil(Math.random() * 100),
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       otherName: req.body.otherName,
@@ -81,7 +81,7 @@ class User {
     }
     return res.status(400).json({
       status: 400,
-      error: 'User not found!',
+      error: 'User not found! check your inputs',
     });
   }
 }
