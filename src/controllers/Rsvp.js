@@ -1,5 +1,6 @@
-import rsvps from '../models/rsvps'
-import Meetup from '../controllers/Meetup'
+import rsvps from '../models/rsvps';
+import Meetup from '../controllers/Meetup';
+import validate from '../helpers/validate';
 
 
 class Rsvp {
