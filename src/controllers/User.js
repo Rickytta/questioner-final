@@ -1,4 +1,5 @@
 import users from '../models/users';
+import validate from '../helpers/validate';
 
 class User {
   static checkUser(userId) {

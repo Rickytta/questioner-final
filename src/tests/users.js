@@ -9,11 +9,11 @@ const {
 chai.use(chaiHttp);
 /* Sign-up */
 describe('Sign-up', () => {
-  describe('POST /api/v1/users/signup', () => {
+  describe('POST /api/v1/auth/signup', () => {
     // test 1
     it('should return the information of the created user', (done) => {
       chai.request(app)
-        .post('/api/v1/users/signup')
+        .post('/api/v1/auth/signup')
         .send({
           firstName: 'Copain',
           lastName: 'Fabrice',
@@ -33,11 +33,11 @@ describe('Sign-up', () => {
 });
 /* Sign-in */
 describe('Sign-in', () => {
-  describe('POST /api/v1/users/login', () => {
+  describe('POST /api/v1/auth/login', () => {
     // test 1
     it('should return the user information if the account exists', (done) => {
       chai.request(app)
-        .post('/api/v1/users/login')
+        .post('/api/v1/auth/login')
         .send({
           userName: 'copain2018',
           password: '',

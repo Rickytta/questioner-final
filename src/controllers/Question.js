@@ -1,4 +1,5 @@
 import questions from '../models/questions';
+import validate from '../helpers/validate';
 
 class Question {
   /* Check Question */
