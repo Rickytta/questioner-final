@@ -8,7 +8,9 @@
     "cover": "NODE_ENV=test istanbul cover _mocha -- --compilers js:babel-register src/tests",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "build": "babel src/server.js --out-dir build",
-    "dev": "babel-watch src/server.js"
+    "dev": "babel-watch src/server.js",
+    "start": "babel-node src/server.js"
+
   },
   "repository": {
     "type": "git",
@@ -21,9 +23,6 @@
   },
   "homepage": "https://github.com/cop1fab/questionner#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-watch": "^2.0.8",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "coveralls": "^3.0.2",
@@ -32,6 +31,9 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-watch": "^2.0.8",
     "express": "^4.16.4",
     "karma": "^3.1.4",
     "moment": "^2.23.0",
