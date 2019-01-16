@@ -1,161 +1,66 @@
-<!DOCTYPE HTML>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>Questioner</title>
-	<link href="css/style.css" rel='stylesheet' type='text/css' />
-	<link rel="stylesheet" type="text/css" href="css/reset.css" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
-
-	<!---slider---->
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/top-image.css" />
-	<script type="text/javascript" src="js/modernizr.custom.28468.js"></script>
-	<!---//slider---->
-
-	<!---start-login-script--->
-	<script src="js/forms.js"></script>
-	<!---//End-login-script--->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>QUESTIONER</title>
+    <link rel="stylesheet" href="css/style.0.1.css">
+    <script src="scripts/scripts.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous"> 
+    <link rel="shortcut icon" type="image/x-icon" href="images/Q for Qner Logo.png" />
 
 </head>
-
-<body>
-
-	<!---start-header---->
-	<div class="header">
-		<div class="wrap">
-			<div class="header-left">
-				<div class="logo">
-					<a style="font-family:'orange juice';font-weight:normal;font-size:50px" href="index.html">Questioner </a>
-				</div>
-			</div>
-			<div class="header-right">
-				<div class="top-nav">
-					<ul>
-					</ul>
-				</div>
-				<div class="sign-ligin-btns">
-					<ul>
-						<li id="signupContainer"><a class="signup" id="signupButton" href="dashboard.html"><span><i>Signup</i></span></a>
-							<div class="clear"> </div>
-							<div id="signupBox">
-								<form id="signupForm">
-									<fieldset id="signupbody">
-										<fieldset>
-											<label for="email">Email Address <span>*</span></label>
-											<input type="text" name="email" id="signupemail" />
-										</fieldset>
-										<fieldset>
-											<label for="password">Choose Password <span>*</span></label>
-											<input type="password" name="password" id="signuppassword" />
-										</fieldset>
-										<fieldset>
-											<label for="password">Confirm Password <span>*</span></label>
-											<input type="password" name="password" id="signuppassword1" />
-										</fieldset>
-										<input type="submit" id="signup" value="Register Now!" />
-									</fieldset>
-								</form>
-							</div>
-							<!-- Login Ends Here -->
-						</li>
-						<li id="loginContainer"><a class="login" id="loginButton" href="#"><span><i>Login</i></span></i></a>
-							<div class="clear"> </div>
-							<div id="loginBox">
-								<form id="loginForm">
-									<fieldset id="body">
-										<fieldset>
-											<label for="email">Email Address</label>
-											<input type="text" name="email" id="email" />
-										</fieldset>
-										<fieldset>
-											<label for="password">Password</label>
-											<input type="password" name="password" id="password" />
-										</fieldset>
-										<label class="remeber" for="checkbox"><input type="checkbox" id="checkbox" />Remember me</label>
-										<input href="dashboard.html" type="submit" id="login" value="login" />
-									</fieldset>
-									<span><a href="#">Forgot your password?</a></span>
-								</form>
-							</div>
-							<!-- Login Ends Here -->
-						</li>
-						<div class="clear"> </div>
-					</ul>
-				</div>
-				<div class="clear"> </div>
-			</div>
-			<div class="clear"> </div>
-		</div>
-	</div>
-
-	<div class="text-slider">
-		<div class="wrap">
-
-			<div id="da-slider" class="da-slider">
-				<div class="da-slide">
-					<p> Ask your questions before meetups. </p>
-					<a href="about.html" class="da-link">Find out how?</a>
-				</div>
-				<div class="da-slide">
-					<p> Vote for the questions to want responded</p>
-					<a href="about.html" class="da-link">Find out More</a>
-				</div>
-			</div>
-			<script type="text/javascript" src="js/jquery.cslider.js"></script>
-			<script type="text/javascript">
-				$(function () {
-					$('#da-slider').cslider({
-						autoplay: true,
-						bgincrement: 450
-					});
-
-				});
-			</script>
-		</div>
-	</div>
-
-	<div class="content">
-		<div class="wrap">
-			<!--- start-top-grids---->
-			<div class="top-grids">
-				<div class="title2">
-					<h2>About Questioner</h2>
-				</div>
-				<div class="paragraph">
-					<p> Crowd-source questions for a meetup.<br>
-						​Questioner​​ helps the meetup organizer prioritize questions to be answered. <br>
-						Other users can vote on asked questions and they bubble to the top or bottom of the log.</p>
-				</div>
-				<div class="top-grid">
-					<div class="product-pic frist-product-pic">
-						<img src="images/boy.png" title="user" />
-					</div>
-					<span><label>1</label></span>
-					<div class="border"> </div>
-					<a href="#">create an Account</a>
-				</div>
-				<div class="top-grid">
-					<div class="product-pic">
-						<img src="images/questions.png" title="questions" />
-					</div>
-					<span><label>2</label></span>
-					<div class="border hide"> </div>
-					<a href="#">Ask a question</a>
-				</div>
-				<div class="top-grid hide">
-					<div class="product-pic">
-						<img src="images/meetup.png" title="meetup" />
-					</div>
-					<span><label>3</label></span>
-					<a href="#">Enjoy the meetup</a>
-				</div>
-				<div class="clear"> </div>
-			</div>
-		</div>
-	</div>
-
+<body id="body">
+    <!-- start header -->
+    <header class="on-scroll-shadow">
+        <div class="container">
+            <nav>
+                <div class="s4 m2 l1">
+                    <ul class="list-inline left">
+                        <li>
+                            <div class="logo left">
+                                <img src="images/Qns logo.png" alt="">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="s4 m2 l3 right-align hide-on-small">
+                    <ul class="list-inline mainmenu">
+                       <li><a href="login.html" class="btn indigo text-white radius-5">Login    </a> </li>
+<!--                         <li><a href="register.html" class="btn indigo text-white radius-5">Register</a> </li>
+ -->                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="clear"></div>
+    </header>
+    <!-- start intro description -->
+    <section>
+        <div class="row">
+            <div class="container"> 
+                <div class="s4 m4 l2">
+                    <div class="xl-padding">
+                        <h1 class="xxl-text text-indigo">
+                            Ask your questions before meetups!
+                        </h1>
+                        <div class="l-text">
+                          Are you attending our meetups? Ask your questions before meetups and get votes for your questions to be considered 
+                          during meetups. 
+                        </div>
+                        <br>
+                        <br>
+                        <a href="register.html" class="btn indigo text-white l-h-padding l-v-padding radius-6">Sign up</a>
+                    </div>
+                </div>
+                <div class="s4 m4 l2">
+                    <div class="image">
+                        <img src="images/vectors.png" alt="Postman">
+                    </div>                
+                </div>                
+            </div>
+        </div>
+        <div class="clear"></div>
+    </section>
 </body>
-
-</html> -->
+</html>
