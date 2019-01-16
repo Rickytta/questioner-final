@@ -23,9 +23,6 @@
   },
   "homepage": "https://github.com/cop1fab/questionner#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-watch": "^2.0.8",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "coveralls": "^3.0.2",
@@ -34,6 +31,9 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-watch": "^2.0.8",
     "express": "^4.16.4",
     "karma": "^3.1.4",
     "moment": "^2.23.0",
