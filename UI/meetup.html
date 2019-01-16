@@ -1,123 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>meetup</title>
-  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:700, 600,500,400,300' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> -->
-  <link rel="stylesheet" href="dashboard.css">
-
-  <!-- <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <script src="https://code.highcharts.com/modules/data.js"></script>
-  <script src="dashboard.js"></script> -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Questioner</title>
+  <link rel="stylesheet" href="css/style.0.1.css">
+  <script src="scripts/scripts.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns"
+    crossorigin="anonymous">
+  <link rel="shortcut icon" type="image/x-icon" href="images/Q for Qner Logo.png" />
 
 </head>
 
-<body>
-  <div class="header">
-    <div class="logo">
-      <i class="fa fa-tachometer"></i>
-      <span>Questioner</span>
-    </div>
-    <a href="#" class="nav-trigger"><span></span></a>
-  </div>
-  <div class="side-nav">
-    <div class="logo">
-      <i class="fa fa-question"></i>
-      <span>Questioner</span>
-    </div>
-    <nav>
-      <ul>
-        <li>
-          <a href="userdash.html">
-            <span><i class="fa fa-home"></i></span>
-            <span>Home</span>
-          </a>
-        </li>
-        <li>
-          <a href="userprofile.html">
-            <span><i class="fa fa-user"></i></span>
-            <span>Profile</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  <div class="main-content">
-    <div class="title2">
-      Questioner -> dashboard -> meetup
-    </div>
-    <div class="main">
-      <div class="widgetm">
-        <div class="title">Writing flat CSS3 for UI/UX</div>
-        <div class="blog-header">
-          <div class="blog-cover">
-            <div class="blog-author">
-              <h3>Copain Fabrice</h3>
-            </div>
-          </div>
-        </div>
-        <div class="blog-body">
-          <div class="blog-title">
-          </div>
-          <div class="blog-summary">
-            <p>Location: <strong> Kigali Convetion Center</strong><br>
-              Date: <strong>January 22, 2019</strong><br>
-              Time: <strong>15h:00</strong></p>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-              scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap
-              into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the
-              release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
-              software like Aldus PageMaker including versions of Lorem Ipsum
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="widgetm">
-        <div class="title">Post your question</div>
-        <section>
-          <div class="text">
-            <textarea placeholder="Ask your question about this meetup"></textarea>
-            <input type="submit" value="POST" />
-          </div>
-        </section>
-        <div>
-          <ul>
-            <li> <img src="boy.png" height="30px" width="26px" /> Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the
-              industry's standard dummy text ever since the 1500s? <br>
-              <div class="main">
-                <div class="container">
-                  <form class="form">
-                    <input id="comment" type="text" placeholder="   Add a comment to this question">
-                    <button type="submit" class="btn">POST</button>
-                  </form>
+<body id="body">
+  <!-- start header -->
+  <header class="on-scroll-shadow">
+    <div class="container">
+      <nav>
+        <div class="s4 m2 l1">
+          <ul class="list-inline left">
+            <li>
+              <div class="logo left">
+                <img src="images/Qns logo.png" alt="">
+              </div>
             </li>
-            <div class="like-content">
-              <button onclick="myfunction()" class="btn-secondary like-review">
-                <i class="fa fa-heart" aria-hidden="true"></i> UPVOTE
-                <script>
-                  myfunction = $(function () {
-                    $(document).one('click', '.like-review', function (e) {
-                      $(this).html('<i class="fa fa-heart" aria-hidden="true"></i>  UPVOTED TO 467 VOTES');
-                      $(this).children('.fa-heart').addClass('animate-like');
-                    });
-                  });
-                </script>
-            </div>
           </ul>
         </div>
-      </div>
+        <div class="s4 m2 l3 right-align hide-on-small hide-on-medium">
+          <ul class="list-inline mainmenu">
+            <li><a href="index.html" class="btn indigo text-white radius-5">Home</a> </li>
+            <li><a href="#" class="btn indigo text-white radius-5">Contact us</a> </li>
+
+          </ul>
+        </div>
     </div>
-  </div>
-  </div>
+    </nav>
+    <div class="clear"></div>
+  </header>
+  <!-- start intro description -->
+  <section>
+    <div class="sidemenu">
+      <ul class="sidebar">
+        <li><a href="#"><span class="fas fa-user"></span> Profile</a></li>
+        <li><a href="login.html"><span class="fas fa-sign-out-alt"></span> Logout</a></li>
+      </ul>
+    </div>
+    <div class="meetups">
+      <div class="meetup">
+        <a href="meetup.html">
+          <button>View</button>
+        </a>
+        <img src="images/digital.jpg">
+        <p>
+          <strong>Title:</strong> Social Media for Nonprofits <br>
+          <strong>Location:</strong> Kigali Business Center <br>
+          <strong>Time:</strong> 15 : 00 H <br>
+          <strong>Date :</strong> January 27, 2019<br>
+
+        </p>
+      </div>
+      <div class="meetup">
+        <a href="meetup.html"><button>View</button></a>
+        <img src="images/arts.jpg">
+        <p>
+          <strong>Title:</strong> Painting and Contemporary Arts <br>
+          <strong>Location:</strong> Kigali Business Center <br>
+          <strong>Time:</strong> 15 : 00 H <br>
+          <strong>Date :</strong> January 27, 2019
+
+        </p>
+      </div>
+      <div cla </div> <div class="clear"></div>
+  </section>
 </body>
 
 </html>
