@@ -1,5 +1,5 @@
 import meetups from '../models/meetups';
-import validate from '../helpers/validate';
+import Validate from '../helpers/Validate';
 
 class Meetup {
   /* Checking if the Meetup exixts */
@@ -8,6 +8,8 @@ class Meetup {
     for (const key in meetups) {
       if (meetups[key].id === meetupId) {
         checkMeetup = meetups[key];
+        checkMeetup.createdOn = new Date(checkMeetup.createdOn).toDateString();
+        checkMeetup.happeningOn = new Date(checkMeetup.happeningOn).toDateString();
         break;
       }
     }
@@ -45,9 +47,15 @@ class Meetup {
   /* get all meetups */
   static getAllMeetups(req, res) {
     if (Object.keys(meetups).length > 0) {
+      let allMeetups = [];
+      meetups.forEach(meetup => {
+        meetup.createdOn = new Date(meetup.createdOn).toDateString();
+        meetup.happeningOn = new Date(meetup.happeningOn).toDateString();
+        allMeetups.push(meetup);
+      });
       return res.status(200).json({
         status: 200,
-        data: meetups,
+        data: allMeetups,
       });
     }
 
@@ -63,6 +71,8 @@ class Meetup {
     for (let key in meetups) {
       if (meetups[key].id === parseInt(req.params.meetupId)) {
         meetup = meetups[key];
+        meetup.createdOn = new Date(meetup.createdOn).toDateString();
+        meetup.happeningOn = new Date(meetup.happeningOn).toDateString();
         break;
       }
     }
@@ -81,10 +91,12 @@ class Meetup {
   }
   /* get upcoming meetups */
   static getUpcomingMeetups(req, res) {
-    let upcomingMeetups = [];
+    const upcomingMeetups = [];
 
     for (let key in meetups) {
       if (Date.now() < meetups[key].happeningOn) {
+        meetups[key].createdOn = new Date(meetups[key].createdOn).toDateString();
+        meetups[key].happeningOn = new Date(meetups[key].happeningOn).toDateString();
         upcomingMeetups.push(meetups[key]);
       }
     }
