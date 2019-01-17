@@ -1,5 +1,5 @@
 import users from '../models/users';
-import validate from '../helpers/validate';
+import Validate from '../helpers/Validate';
 
 class User {
   static checkUser(userId) {
@@ -25,6 +25,24 @@ class User {
 
   /* signup */
   static signup(req, res) {
+    // Validate inputs
+    let checkInputs = [];
+    checkInputs.push(Validate.name(req.body.firstName, true));
+    checkInputs.push(Validate.name(req.body.lastName, true));
+    checkInputs.push(Validate.name(req.body.otherName, false));
+    checkInputs.push(Validate.email(req.body.email, true));
+    checkInputs.push(Validate.phone(req.body.phone, true));
+    checkInputs.push(Validate.name(req.body.username, true));
+
+    for (let i = 0; i < checkInputs.length; i += 1) {
+      if (checkInputs[i].isValid === false) {
+        return res.status(400).json({
+          status: 400,
+          error: checkInputs[i].error,
+        });
+      }
+    }
+
     const newUser = {
       id: Math.ceil(Math.random() * 100),
       firstName: req.body.firstName,
@@ -57,6 +75,17 @@ class User {
 
   /* login */
   static login(req, res) {
+    // Validate inputs
+    let checkInput = false;
+    checkInput = Validate.name(req.body.username, true);
+
+    if (checkInput.isValid === false) {
+      return res.status(400).json({
+        status: 400,
+        error: checkInput.error,
+      });
+    }
+
     let isUser = {};
     users.forEach((user) => {
       if (user.username === req.body.username && user.password === req.body.password) {
@@ -82,7 +111,7 @@ class User {
     }
     return res.status(400).json({
       status: 400,
-      error: 'User not found! check your inputs',
+      error: 'User not found!',
     });
   }
 }
