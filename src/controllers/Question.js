@@ -1,5 +1,5 @@
 import questions from '../models/questions';
-import validate from '../helpers/validate';
+import Validate from '../helpers/Validate';
 
 class Question {
   /* Check Question */
@@ -8,6 +8,7 @@ class Question {
     for (const key in questions) {
       if (questions[key].id === questionId) {
         checkQuestion = questions[key];
+        checkQuestion.createdOn = new Date(checkQuestion.createdOn).toDateString();
         break;
       }
     }
@@ -21,10 +22,11 @@ class Question {
       id: Math.ceil(Math.random() * 100),
       createdOn: Date.now(),
       createdBy: req.body.createdBy,
-      question: req.body.question,
+      meetup: req.params.meetupId,
       title: req.body.title,
       body: req.body.body,
-      votes: 0
+      upvotes: 0,
+      downvotes: 0
     };
 
     questions.push(newQuestion);
@@ -45,9 +47,14 @@ class Question {
   /* get all questions */
   static getAllQuestions(req, res) {
     if (Object.keys(questions).length > 0) {
+      let allQuestions = [];
+      questions.forEach(question => {
+        question.createdOn = new Date(question.createdOn).toDateString();
+        allQuestions.push(question);
+      });
       return res.status(200).json({
         status: 200,
-        data: questions,
+        data: allQuestions,
       });
     }
 
@@ -63,6 +70,7 @@ class Question {
     for (let key in questions) {
       if (questions[key].id === parseInt(req.params.questionId)) {
         question = questions[key];
+        question.createdOn = new Date(question.createdOn).toDateString();
         break;
       }
     }
@@ -104,21 +112,16 @@ class Question {
     });
   }
 
-  /* vote a question */
-  static voteQuestion(req, res) {
+  /* upvote a question */
+  static upvoteQuestion(req, res) {
     let oldVotes = 0;
     let newVotes = 0;
     let question = {};
     for (let i in questions) {
       if (questions[i].id === parseInt(req.params.questionId)) {
-        oldVotes = questions[i].votes;
-
-        if (oldVotes === 0 && parseInt(req.body.vote) <= 0) {
-          break;
-        }
-
-        questions[i].votes = questions[i].votes + (parseInt(req.body.vote));
-        newVotes = questions[i].votes;
+        oldVotes = questions[i].upvotes;
+        questions[i].upvotes += parseInt(req.body.upvote);
+        newVotes = questions[i].upvotes;
         question = Question.checkQuestion(questions[i].id);
         break;
       }
@@ -128,13 +131,42 @@ class Question {
       return res.status(200).json({
         status: 200,
         data: question,
-        message: 'Thanks for voting this question!',
+        message: 'Thanks for upvoting this question!',
       });
     }
 
     return res.status(400).json({
       status: 400,
-      error: 'Vote failed',
+      error: 'Upvote failed',
+    });
+  }
+
+  /* downvote a question */
+  static downvoteQuestion(req, res) {
+    let oldVotes = 0;
+    let newVotes = 0;
+    let question = {};
+    for (let i in questions) {
+      if (questions[i].id === parseInt(req.params.questionId)) {
+        oldVotes = questions[i].downvotes;
+        questions[i].downvotes += parseInt(req.body.downvote);
+        newVotes = questions[i].downvotes;
+        question = Question.checkQuestion(questions[i].id);
+        break;
+      }
+    }
+
+    if (oldVotes !== newVotes) {
+      return res.status(200).json({
+        status: 200,
+        data: question,
+        message: 'Thanks for downvoting this question!',
+      });
+    }
+
+    return res.status(400).json({
+      status: 400,
+      error: 'Downvote failed',
     });
   }
 }

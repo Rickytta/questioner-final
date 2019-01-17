@@ -4,11 +4,10 @@ import Question from '../controllers/Question';
 
 const router = express.Router();
 
-router.post('/', Question.create);
 router.get('/', Question.getAllQuestions);
 router.get('/:questionId', Question.getQuestion);
 router.delete('/:questionId', Question.deleteQuestion);
-router.patch('/:questionId/upvote', Question.voteQuestion);
-router.patch('/:questionId/downvote', Question.voteQuestion);
+router.patch('/:questionId/upvote', Question.upvoteQuestion);
+router.patch('/:questionId/downvote', Question.downvoteQuestion);
 
 export default router;
