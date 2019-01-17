@@ -18,6 +18,19 @@ class Question {
 
   /* Create a question */
   static create(req, res) {
+    // Validate inputs
+    let checkInputs = [];
+    checkInputs.push(Validate.title(req.body.title, true));
+    checkInputs.push(Validate.title(req.body.body, true));
+
+    for (let i = 0; i < checkInputs.length; i += 1) {
+      if (checkInputs[i].isValid === false) {
+        return res.status(400).json({
+          status: 400,
+          error: checkInputs[i].error,
+        });
+      }
+    }
     const newQuestion = {
       id: Math.ceil(Math.random() * 100),
       createdOn: Date.now(),

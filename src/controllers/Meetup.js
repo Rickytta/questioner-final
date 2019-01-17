@@ -18,6 +18,19 @@ class Meetup {
   }
   /* create */
   static create(req, res) {
+    // Validate inputs
+    let checkInputs = [];
+    checkInputs.push(Validate.title(req.body.location, true));
+    checkInputs.push(Validate.title(req.body.topic, true));
+
+    for (let i = 0; i < checkInputs.length; i += 1) {
+      if (checkInputs[i].isValid === false) {
+        return res.status(400).json({
+          status: 400,
+          error: checkInputs[i].error,
+        });
+      }
+    }
     const newMeetup = {
       id: Math.ceil(Math.random() * 100),
       createdOn: Date.now(),
