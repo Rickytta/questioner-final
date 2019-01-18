@@ -9,10 +9,11 @@ const {
 chai.use(chaiHttp);
 
 describe('meetups', () => {
-  /* Get all meetups */
-  describe('GET /api/v1/meetups', () => {
-    it('it should return an array of meetups', (done) => {
-      chai.request(app).get('/api/v1/meetups').end((err, res) => {
+
+  /* Get upcoming meetups */
+  describe('GET /api/v1/meetups/upcoming', () => {
+    it('it should return an array of upcoming meetups', (done) => {
+      chai.request(app).get('/api/v1/meetups/upcoming').end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body.data.length).to.be.above(0);
         done();
@@ -20,10 +21,10 @@ describe('meetups', () => {
     }); // end of test
   });
 
-  /* Get upcoming meetups */
+  /* Get all meetups */
   describe('GET /api/v1/meetups', () => {
-    it('it should return an array of upcoming meetups', (done) => {
-      chai.request(app).get('/api/v1/meetups/upcoming').end((err, res) => {
+    it('it should return an array of meetups', (done) => {
+      chai.request(app).get('/api/v1/meetups').end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body.data.length).to.be.above(0);
         done();
