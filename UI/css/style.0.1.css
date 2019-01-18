@@ -779,6 +779,7 @@ form {
 
 .fa {
     font-size: 250px;
+    size: 100px;
     cursor: pointer;
     color: rgb(247 148 29)
 }
