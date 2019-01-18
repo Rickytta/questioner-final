@@ -33,9 +33,9 @@ describe('GET /api/v1/questions/:questionId', () => {
 });
 
 /* Create a question */
-describe('POST /api/v1/questions', () => {
+describe('POST /api/v1/meetups/:meetupid/questions', () => {
   it('it should create a question', (done) => {
-    chai.request(app).post('/api/v1/questions').send({
+    chai.request(app).post('/api/v1/meetups/:meetupid/questions').send({
         createdBy: 2,
         meetup: 2,
         title: "bootstrap",
