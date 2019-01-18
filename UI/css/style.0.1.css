@@ -717,6 +717,11 @@ form {
     height: 250px;
 }
 
+.meetup img p {
+    width: 80% !important;
+    height: 250px;
+}
+
 .meetup button {
     position: relative;
     top: 40px;
@@ -752,13 +757,33 @@ form {
 }
 
 #comment_form textarea {
-    width: 450px;
+    width: 500px;
     margin-left: 60px;
     margin-top: 10px;
+    height: 50px;
+}
+
+#comment_form textarea .two {
+    width: 500px;
+    margin-left: 60px;
+    margin-top: 10px;
+    height: 30px;
 }
 
 .ask {
     margin-left: 60px;
+}
+
+.fa-plus {
+    margin-right: 10px !important;
+}
+
+.fa-sign-out-alt {
+    margin-right: 10px !important;
+}
+
+.fas {
+    margin-left: 10px;
 }
 
 #comment_form input[type="submit"] {
@@ -778,12 +803,37 @@ form {
 }
 
 .fa {
-    font-size: 250px;
+    font-size: 35px !important;
     size: 100px;
+    width: 10px;
     cursor: pointer;
-    color: rgb(247 148 29)
+    color: rgb(247 148 29);
+
+
+}
+
+.div_icons .fa {
+    display: inline;
+}
+
+
+.div_icons .dislike {
+    margin-left: 40px;
 }
 
 .fa:hover {
     color: black;
+}
+
+.comment-box {
+    height: 15px;
+    margin-left: 2px;
+}
+
+.description {
+    height: 20px !important;
+}
+
+.numbers {
+    margin-top: 80px;
 }
