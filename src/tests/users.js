@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 /* Sign-up */
 describe('Sign-up', () => {
   describe('POST /api/v1/auth/signup', () => {
-    // test 1
+    // Test when a user has entered a valid email.
     it('should return the information of the created user', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
@@ -29,7 +29,7 @@ describe('Sign-up', () => {
           done();
         });
     });
-    // test 2
+    // Test when user has entered an  invalid email 
     it('should display \'Please enter a valid email address.\'', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
@@ -53,7 +53,7 @@ describe('Sign-up', () => {
 /* Sign-in */
 describe('Sign-in', () => {
   describe('POST /api/v1/auth/login', () => {
-    // test 1
+    // Test for a login of an existing user.
     it('should return the user information if the account exists', (done) => {
       chai.request(app)
         .post('/api/v1/auth/login')
@@ -67,7 +67,7 @@ describe('Sign-in', () => {
           done();
         });
     });
-    // test 2
+    // Test for a user who entered invalid characters. 
     it('should display \'Please enter valid characters! Only alphabetic characters allowed.\'', (done) => {
       chai.request(app)
         .post('/api/v1/auth/login')
