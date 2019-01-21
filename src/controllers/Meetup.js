@@ -1,5 +1,5 @@
 import meetups from '../models/meetups';
-import Validate from '../helpers/Validate';
+import Validate from '../helpers/validate';
 
 class Meetup {
   /* Checking if the Meetup exixts */
