@@ -77,7 +77,7 @@ describe('Sign-in', () => {
         })
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body.error.toLowerCase()).to.be.equal('user not found!');
+          expect(res.body.error.toLowerCase()).to.be.equal('sorry, your username or password isincorrect');
           done();
         });
     });
