@@ -10,7 +10,7 @@ const pool = new pg.Pool({
 });
 
 pool.on('connect', () => {
-  console.log('connected to the Database');
+  console.log('Sucessfully connected to the Database');
 });
 
 // https://www.codementor.io/olawalealadeusi896

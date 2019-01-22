@@ -62,7 +62,7 @@ class Validate {
     }
     return {
       isValid: false,
-      error: 'Please enter valid characters!',
+      error: 'This meetup or user is not found!',
     };
   }
 }
