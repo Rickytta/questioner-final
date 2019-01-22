@@ -14,8 +14,8 @@ pool.on('connect', () => {
 });
 
 const drop = () => {
-  const usersTable = 'DROP TABLE IF EXISTS users';
-  const meetupsTable = 'DROP TABLE IF EXISTS meetups';
+  const usersTable = 'DROP TABLE IF EXISTS users CASCADE';
+  const meetupsTable = 'DROP TABLE IF EXISTS meetups CASCADE';
   const questionsTable = 'DROP TABLE IF EXISTS questions';
   const rsvpsTable = 'DROP TABLE IF EXISTS rsvps';
 
@@ -59,6 +59,7 @@ const create = () => {
         location VARCHAR(100) NOT NULL,
         images TEXT [] NULL,
         topic VARCHAR(50) NOT NULL,
+        "happeningOn" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         tags TEXT [] NULL
       )`;
 
