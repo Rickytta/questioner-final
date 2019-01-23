@@ -19,15 +19,14 @@ class Question {
     }
 
     const text = `INSERT INTO
-      questions("createdBy", meetup, title, body, upvotes, downvotes)
-      VALUES($1, $2, $3, $4, $5, $6) RETURNING *`;
+      questions("createdBy", meetup, title, body)
+      VALUES($1, $2, $3, $4) RETURNING *`;
 
     const values = [
       req.body.createdBy,
       req.params.meetupId,
       req.body.title,
       req.body.body,
-      0, 0
     ];
 
     try {
@@ -125,23 +124,45 @@ class Question {
 
   /* vote a question */
   static async voteQuestion(req, res) {
+    const text = 'INSERT INTO votes(question, "userId", upvotes, downvotes) VALUES($1, $2, $3, $4) RETURNING *';
+    const values = [
+      req.params.questionId,
+      req.body.userId,
+      req.body.upvote || 0,
+      req.body.downvote || 0
+    ];
     try {
+      const checkVote = await db.query('SELECT * FROM votes WHERE question=$1 AND "userId"=$2', [req.params.questionId, req.body.userId]);
+
+      if (checkVote.rows.length > 0) {
+        if ((checkVote.rows[0].upvotes && req.body.downvote) || (checkVote.rows[0].downvotes && req.body.upvote)) {
+          await db.query('DELETE FROM votes WHERE question=$1 AND "userId"=$2', [req.params.questionId, req.body.userId])
+        } else {
+          return res.status(200).json({
+            status: 200,
+            error: 'Sorry, you can not upvote/downvote more than once the same question',
+          });
+        }
+      }
       const {
         rows
-      } = await db.query(`UPDATE questions SET ${Object.keys(req.body)[0]}s=${Object.keys(req.body)[0]}s+1 WHERE id=$1 RETURNING *`, [req.params.questionId]);
+      } = await db.query(text, values);
 
       if (rows.length > 0) {
-        rows[0].createdOn = new Date(rows[0].createdOn).toDateString();
+
+        rows[0].upvotes = (await db.query('SELECT * FROM votes WHERE question=$1 AND upvotes > 0', [req.params.questionId])).rowCount;
+        rows[0].downvotes = (await db.query('SELECT * FROM votes WHERE question=$1 AND downvotes > 0', [req.params.questionId])).rowCount;
+
         return res.status(200).json({
           status: 200,
           data: rows[0],
-          message: `${Object.keys(req.body)[0]} successful`,
+          message: `successful`,
         });
       }
 
       return res.status(400).json({
         status: 400,
-        error: `${Object.keys(req.body)[0]} fail`,
+        error: `fail`,
       });
     } catch (error) {
       console.log(error)

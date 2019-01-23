@@ -16,11 +16,12 @@ pool.on('connect', () => {
 const drop = () => {
   const usersTable = 'DROP TABLE IF EXISTS users CASCADE';
   const meetupsTable = 'DROP TABLE IF EXISTS meetups CASCADE';
-  const questionsTable = 'DROP TABLE IF EXISTS questions';
+  const questionsTable = 'DROP TABLE IF EXISTS questions CASCADE';
   const rsvpsTable = 'DROP TABLE IF EXISTS rsvps';
+  const votesTable = 'DROP TABLE IF EXISTS votes';
 
 
-  const dropQueries = `${usersTable}; ${questionsTable}; ${rsvpsTable}; ${meetupsTable};`;
+  const dropQueries = `${usersTable}; ${questionsTable}; ${rsvpsTable}; ${votesTable}; ${meetupsTable};`;
 
   pool.query(dropQueries)
     .then((res) => {
@@ -70,9 +71,7 @@ const create = () => {
         "createdBy" INT NOT NULL REFERENCES users(id),
         meetup INT NOT NULL REFERENCES meetups(id),
         title VARCHAR(100) NOT NULL,
-        body TEXT NULL,
-        upvotes INT NOT NULL DEFAULT 0,
-        downvotes INT NOT NULL DEFAULT 0
+        body TEXT NULL
       )`;
 
   const rsvpsTable = `CREATE TABLE IF NOT EXISTS
@@ -83,7 +82,16 @@ const create = () => {
         response VARCHAR(15) NOT NULL
       )`;
 
-  const createQueries = `${usersTable}; ${meetupsTable}; ${questionsTable}; ${rsvpsTable};`;
+  const votesTable = `CREATE TABLE IF NOT EXISTS
+      votes(
+        id SERIAL PRIMARY KEY,
+        question INT NOT NULL REFERENCES questions(id),
+        "userId" INT NOT NULL REFERENCES users(id),
+        upvotes INT NOT NULL DEFAULT 0,
+        downvotes INT NOT NULL DEFAULT 0
+      )`;
+
+  const createQueries = `${usersTable}; ${meetupsTable}; ${questionsTable}; ${rsvpsTable}; ${votesTable};`;
 
   pool.query(createQueries)
     .then((res) => {

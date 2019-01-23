@@ -31,6 +31,15 @@ class Meetup {
     ];
 
     try {
+      const checkMeetup = await db.query('SELECT * FROM meetups WHERE location=$1 AND topic=$2 AND "happeningOn"=$3', [req.body.location, req.body.topic, new Date(req.body.happeningOn)]);
+
+      if (checkMeetup.rows.length > 0) {
+        return res.status(200).json({
+          status: 200,
+          error: 'Sorry, this meetup already exists',
+        });
+      }
+
       const {
         rows
       } = await db.query(text, values);
@@ -131,6 +140,8 @@ class Meetup {
   /* delete a meetup */
   static async deleteMeetup(req, res) {
     try {
+      await db.query('DELETE FROM questions WHERE meetup=$1', [req.params.meetupId]);
+      await db.query('DELETE FROM rsvps WHERE meetup=$1', [req.params.meetupId]);
       const {
         rows
       } = await db.query('DELETE FROM meetups WHERE id=$1 RETURNING *', [req.params.meetupId]);
