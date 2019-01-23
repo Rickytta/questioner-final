@@ -77,49 +77,53 @@ class Meetup {
     }
   }
   /* get all meetups */
-  static getAllMeetups(req, res) {
-    if (Object.keys(meetups).length > 0) {
-      let allMeetups = [];
-      meetups.forEach(meetup => {
-        meetup.createdOn = new Date(meetup.createdOn).toDateString();
-        meetup.happeningOn = new Date(meetup.happeningOn).toDateString();
-        allMeetups.push(meetup);
+  static async getAllMeetups(req, res) {
+    try {
+      const {
+        rows
+      } = await db.query('SELECT * FROM meetups');
+      if (rows.length > 0) {
+        let meetups = [];
+        rows.forEach(meetup => {
+          meetup.createdOn = new Date(meetup.createdOn).toDateString();
+          meetup.happeningOn = new Date(meetup.happeningOn).toDateString();
+          meetups.push(meetup);
+        });
+        return res.status(200).json({
+          status: 200,
+          data: meetups,
+        });
+      }
+      return res.status(400).json({
+        status: 400,
+        error: 'Meetups not found!',
       });
-      return res.status(200).json({
-        status: 200,
-        data: allMeetups,
-      });
+    } catch (error) {
+      console.log(error);
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'Meetups not found!',
-    });
   }
   /* get by id */
-  static getMeetup(req, res) {
-    let meetup = {};
+  static async getMeetup(req, res) {
+    try {
+      const {
+        rows
+      } = await db.query('SELECT * FROM meetups WHERE id=$1', [req.params.meetupId]);
+      if (rows.length > 0) {
+        rows[0].createdOn = new Date(rows[0].createdOn).toDateString();
+        rows[0].happeningOn = new Date(rows[0].happeningOn).toDateString();
 
-    for (let key in meetups) {
-      if (meetups[key].id === parseInt(req.params.meetupId)) {
-        meetup = meetups[key];
-        meetup.createdOn = new Date(meetup.createdOn).toDateString();
-        meetup.happeningOn = new Date(meetup.happeningOn).toDateString();
-        break;
+        return res.status(200).json({
+          status: 200,
+          data: rows[0],
+        });
       }
-    }
-
-    if (Object.keys(meetup).length > 0) {
-      return res.status(200).json({
-        status: 200,
-        data: meetup,
+      return res.status(400).json({
+        status: 400,
+        error: 'Meetup not found!',
       });
+    } catch (error) {
+      console.log(error);
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'Meetup not found!',
-    });
   }
   /* get upcoming meetups */
   static getUpcomingMeetups(req, res) {
