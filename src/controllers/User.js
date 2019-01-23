@@ -1,30 +1,9 @@
-import users from '../models/users';
 import Validate from '../helpers/validate';
+import db from '../models/db'
 
 class User {
-  static checkUser(userId) {
-    let checkUser = {};
-    for (const key in users) {
-      if (users[key].id === userId) {
-        checkUser = {
-          id: users[key].id,
-          firstName: users[key].firstName,
-          lastName: users[key].lastName,
-          otherName: users[key].otherName,
-          email: users[key].email,
-          phone: users[key].phone,
-          username: users[key].username,
-          registered: new Date(users[key].registered).toDateString(),
-          isAdmin: users[key].isAdmin
-        }
-      }
-    }
-
-    return checkUser;
-  }
-
   /* signup */
-  static signup(req, res) {
+  static async signup(req, res) {
     // Validate inputs
     let checkInputs = [];
     checkInputs.push(Validate.name(req.body.firstName, true));
@@ -43,34 +22,52 @@ class User {
       }
     }
 
-    const newUser = {
-      id: Math.ceil(Math.random() * 100),
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      otherName: req.body.otherName,
-      email: req.body.email,
-      phone: req.body.phone,
-      username: req.body.username,
-      password: req.body.password,
-      registered: Date.now(),
-      isAdmin: req.body.isAdmin,
-    };
+    const text = `INSERT INTO
+            users("firstName", "lastName", "otherName", email, phone, username, password, "isAdmin")
+            VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+            returning id, "firstName", "lastName", "otherName", email, phone, username, registered, "isAdmin"`;
 
-    users.push(newUser);
 
-    const isCreated = User.checkUser(newUser.id);
+    const values = [
+      req.body.firstName,
+      req.body.lastName,
+      req.body.otherName,
+      req.body.email,
+      req.body.phone,
+      req.body.username,
+      req.body.password,
+      req.body.isAdmin
+    ];
 
-    if (Object.keys(isCreated).length > 0) {
-      return res.status(201).json({
-        status: 201,
-        data: isCreated,
-      });
+    try {
+      let checkUser = '';
+
+      if (req.body.email) {
+        checkUser = await db.query('SELECT * FROM users WHERE username=$1 OR email=$2 AND password=$3', [req.body.username, req.body.email, req.body.password]);
+      } else {
+        checkUser = await db.query('SELECT * FROM users WHERE username=$1 AND password=$2', [req.body.username, req.body.password]);
+      }
+
+      if (checkUser.rows.length > 0) {
+        return res.status(200).json({
+          status: 200,
+          error: 'Sorry, this account already exists',
+        });
+      }
+
+      const {
+        rows
+      } = await db.query(text, values);
+      if (rows.length > 0) {
+        rows[0].registered = new Date(rows[0].registered).toDateString();
+        return res.status(201).json({
+          status: 201,
+          data: rows[0],
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'User not created!',
-    });
   }
 
   /* login */
