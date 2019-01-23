@@ -152,29 +152,29 @@ class Meetup {
       console.log(error);
     }
   }
+
   /* delete a meetup */
-  static deleteMeetup(req, res) {
-    const meetupsNumber = meetups.length;
-    let NewMeetupsNumber = meetups.length;
-    for (let i in meetups) {
-      if (meetups[i].id === parseInt(req.params.meetupId)) {
-        meetups.splice(i, 1);
-        NewMeetupsNumber -= 1;
-        break;
+  static async deleteMeetup(req, res) {
+    try {
+      const {
+        rows
+      } = await db.query('DELETE FROM meetups WHERE id=$1 RETURNING *', [req.params.meetupId]);
+
+      if (rows.length > 0) {
+        return res.status(200).json({
+          status: 200,
+          data: rows[0],
+          message: 'meetup deleted',
+        });
       }
-    }
 
-    if (NewMeetupsNumber < meetupsNumber) {
-      return res.status(200).json({
-        status: 200,
-        data: 'meetup deleted',
+      return res.status(400).json({
+        status: 400,
+        error: 'Meetup not deleted!',
       });
+    } catch (error) {
+      console.log(error)
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'Meetup not deleted!',
-    });
   }
 }
 
