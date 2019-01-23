@@ -1,23 +1,9 @@
-import questions from '../models/questions';
-import Validate from '../helpers/validate';
+import db from '../models/db';
+import Validate from '../helpers/Validate';
 
 class Question {
-  /* Check Question */
-  static checkQuestion(questionId) {
-    let checkQuestion = {};
-    for (const key in questions) {
-      if (questions[key].id === questionId) {
-        checkQuestion = questions[key];
-        checkQuestion.createdOn = new Date(checkQuestion.createdOn).toDateString();
-        break;
-      }
-    }
-
-    return checkQuestion;
-  }
-
   /* Create a question */
-  static create(req, res) {
+  static async create(req, res) {
     // Validate inputs
     let checkInputs = [];
     checkInputs.push(Validate.title(req.body.title, true));
@@ -31,156 +17,156 @@ class Question {
         });
       }
     }
-    const newQuestion = {
-      id: Math.ceil(Math.random() * 100),
-      createdOn: Date.now(),
-      createdBy: req.body.createdBy,
-      meetup: req.params.meetupId,
-      title: req.body.title,
-      body: req.body.body,
-      upvotes: 0,
-      downvotes: 0
-    };
 
-    questions.push(newQuestion);
+    const text = `INSERT INTO
+      questions("createdBy", meetup, title, body)
+      VALUES($1, $2, $3, $4) RETURNING *`;
 
-    const isCreated = Question.checkQuestion(newQuestion.id);
+    const values = [
+      req.body.createdBy,
+      req.params.meetupId,
+      req.body.title,
+      req.body.body,
+    ];
 
-    if (Object.keys(isCreated).length > 0) {
-      return res.status(201).json({
-        status: 201,
-        data: isCreated,
+    try {
+      const {
+        rows
+      } = await db.query(text, values);
+
+      if (rows.length > 0) {
+        rows[0].createdOn = new Date(rows[0].createdOn).toDateString();
+
+        return res.status(201).json({
+          status: 201,
+          data: rows[0],
+        });
+      }
+
+      return res.status(400).json({
+        status: 400,
+        error: 'Question not posted!',
       });
+    } catch (error) {
+      console.log(error);
     }
-    return res.status(400).json({
-      status: 400,
-      error: 'Question not posted!',
-    });
   }
   /* get all questions */
-  static getAllQuestions(req, res) {
-    if (Object.keys(questions).length > 0) {
-      let allQuestions = [];
-      questions.forEach(question => {
-        question.createdOn = new Date(question.createdOn).toDateString();
-        allQuestions.push(question);
+  static async getAllQuestions(req, res) {
+    try {
+      const {
+        rows
+      } = await db.query('SELECT * FROM questions');
+      if (rows.length > 0) {
+        let questions = [];
+        rows.forEach(question => {
+          question.createdOn = new Date(question.createdOn).toDateString();
+          questions.push(question);
+        });
+        return res.status(200).json({
+          status: 200,
+          data: questions,
+        });
+      }
+      return res.status(400).json({
+        status: 400,
+        error: 'Questions not found!',
       });
-      return res.status(200).json({
-        status: 200,
-        data: allQuestions,
-      });
+    } catch (error) {
+      console.log(error);
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'Questions not found!',
-    });
   }
   /* get by id */
-  static getQuestion(req, res) {
-    let question = {};
+  static async getQuestion(req, res) {
+    try {
+      const {
+        rows
+      } = await db.query('SELECT * FROM questions WHERE id=$1', [req.params.questionId]);
+      if (rows.length > 0) {
+        rows[0].createdOn = new Date(rows[0].createdOn).toDateString();
 
-    for (let key in questions) {
-      if (questions[key].id === parseInt(req.params.questionId)) {
-        question = questions[key];
-        question.createdOn = new Date(question.createdOn).toDateString();
-        break;
+        return res.status(200).json({
+          status: 200,
+          data: rows[0],
+        });
       }
-    }
-
-    if (Object.keys(question).length > 0) {
-      return res.status(200).json({
-        status: 200,
-        data: question,
+      return res.status(400).json({
+        status: 400,
+        error: 'Question not found!',
       });
+    } catch (error) {
+      console.log(error);
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'Question not found!',
-    });
   }
   /* delete a question */
-  static deleteQuestion(req, res) {
-    const questionsNumber = questions.length;
-    let NewQuestionsNumber = questions.length;
-    for (let i in questions) {
-      if (questions[i].id === parseInt(req.params.questionId)) {
-        questions.splice(i, 1);
-        NewQuestionsNumber -= 1;
-        break;
+  static async deleteQuestion(req, res) {
+    try {
+      const {
+        rows
+      } = await db.query('DELETE FROM questions WHERE id=$1 RETURNING *', [req.params.questionId]);
+
+      if (rows.length > 0) {
+        return res.status(200).json({
+          status: 200,
+          data: rows[0],
+          message: 'question deleted',
+        });
       }
-    }
 
-    if (NewQuestionsNumber < questionsNumber) {
-      return res.status(200).json({
-        status: 200,
-        data: 'question deleted',
+      return res.status(400).json({
+        status: 400,
+        error: 'question not deleted!',
       });
+    } catch (error) {
+      console.log(error)
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'Question not deleted!',
-    });
   }
 
-  /* upvote a question */
-  static upvoteQuestion(req, res) {
-    let oldVotes = 0;
-    let newVotes = 0;
-    let question = {};
-    for (let i in questions) {
-      if (questions[i].id === parseInt(req.params.questionId)) {
-        oldVotes = questions[i].upvotes;
-        questions[i].upvotes += parseInt(req.body.upvote);
-        newVotes = questions[i].upvotes;
-        question = Question.checkQuestion(questions[i].id);
-        break;
+  /* vote a question */
+  static async voteQuestion(req, res) {
+    const text = 'INSERT INTO votes(question, "userId", upvotes, downvotes) VALUES($1, $2, $3, $4) RETURNING *';
+    const values = [
+      req.params.questionId,
+      req.body.userId,
+      req.body.upvote || 0,
+      req.body.downvote || 0
+    ];
+    try {
+      const checkVote = await db.query('SELECT * FROM votes WHERE question=$1 AND "userId"=$2', [req.params.questionId, req.body.userId]);
+
+      if (checkVote.rows.length > 0) {
+        if ((checkVote.rows[0].upvotes && req.body.downvote) || (checkVote.rows[0].downvotes && req.body.upvote)) {
+          await db.query('DELETE FROM votes WHERE question=$1 AND "userId"=$2', [req.params.questionId, req.body.userId])
+        } else {
+          return res.status(200).json({
+            status: 200,
+            error: 'Sorry, you can not upvote/downvote more than once the same question',
+          });
+        }
       }
-    }
+      const {
+        rows
+      } = await db.query(text, values);
 
-    if (oldVotes !== newVotes) {
-      return res.status(200).json({
-        status: 200,
-        data: question,
-        message: 'Thanks for upvoting this question!',
-      });
-    }
+      if (rows.length > 0) {
 
-    return res.status(400).json({
-      status: 400,
-      error: 'Upvote failed',
-    });
-  }
+        rows[0].upvotes = (await db.query('SELECT * FROM votes WHERE question=$1 AND upvotes > 0', [req.params.questionId])).rowCount;
+        rows[0].downvotes = (await db.query('SELECT * FROM votes WHERE question=$1 AND downvotes > 0', [req.params.questionId])).rowCount;
 
-  /* downvote a question */
-  static downvoteQuestion(req, res) {
-    let oldVotes = 0;
-    let newVotes = 0;
-    let question = {};
-    for (let i in questions) {
-      if (questions[i].id === parseInt(req.params.questionId)) {
-        oldVotes = questions[i].downvotes;
-        questions[i].downvotes += parseInt(req.body.downvote);
-        newVotes = questions[i].downvotes;
-        question = Question.checkQuestion(questions[i].id);
-        break;
+        return res.status(200).json({
+          status: 200,
+          data: rows[0],
+          message: `successful`,
+        });
       }
-    }
 
-    if (oldVotes !== newVotes) {
-      return res.status(200).json({
-        status: 200,
-        data: question,
-        message: 'Thanks for downvoting this question!',
+      return res.status(400).json({
+        status: 400,
+        error: `fail`,
       });
+    } catch (error) {
+      console.log(error)
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'Downvote failed',
-    });
   }
 }
 
