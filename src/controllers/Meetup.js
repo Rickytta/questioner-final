@@ -125,29 +125,32 @@ class Meetup {
       console.log(error);
     }
   }
+
   /* get upcoming meetups */
-  static getUpcomingMeetups(req, res) {
-    const upcomingMeetups = [];
-
-    for (let key in meetups) {
-      if (Date.now() < meetups[key].happeningOn) {
-        meetups[key].createdOn = new Date(meetups[key].createdOn).toDateString();
-        meetups[key].happeningOn = new Date(meetups[key].happeningOn).toDateString();
-        upcomingMeetups.push(meetups[key]);
+  static async getUpcomingMeetups(req, res) {
+    try {
+      const {
+        rows
+      } = await db.query('SELECT * FROM meetups WHERE "happeningOn">=NOW()');
+      if (rows.length > 0) {
+        let meetups = [];
+        rows.forEach(meetup => {
+          meetup.createdOn = new Date(meetup.createdOn).toDateString();
+          meetup.happeningOn = new Date(meetup.happeningOn).toDateString();
+          meetups.push(meetup);
+        });
+        return res.status(200).json({
+          status: 200,
+          data: meetups,
+        });
       }
-    }
-
-    if (Object.keys(upcomingMeetups).length > 0) {
-      return res.status(200).json({
-        status: 200,
-        data: upcomingMeetups,
+      return res.status(400).json({
+        status: 400,
+        error: 'No upcoming meetups!',
       });
+    } catch (error) {
+      console.log(error);
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'No upcoming meetups!',
-    });
   }
   /* delete a meetup */
   static deleteMeetup(req, res) {
