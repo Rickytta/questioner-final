@@ -71,7 +71,7 @@ class User {
   }
 
   /* login */
-  static login(req, res) {
+  static async login(req, res) {
     // Validate inputs
     let checkInput = false;
     checkInput = Validate.name(req.body.username, true);
@@ -83,33 +83,35 @@ class User {
       });
     }
 
-    let isUser = {};
-    users.forEach((user) => {
-      if (user.username === req.body.username && user.password === req.body.password) {
-        isUser = {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          otherName: user.otherName,
-          email: user.email,
-          phone: user.phone,
-          username: user.username,
-          registered: user.registered,
-          isAdmin: user.isAdmin
-        }
-      }
-    });
+    try {
+      const {
+        rows
+      } = await db.query('SELECT * FROM users WHERE username=$1 AND password=$2', [req.body.username, req.body.password]);
 
-    if (Object.keys(isUser).length > 0) {
-      return res.status(200).json({
-        status: 200,
-        data: isUser,
+      if (rows.length > 0) {
+        return res.status(200).json({
+          status: 200,
+          data: {
+            id: rows[0].id,
+            firstName: rows[0].firstName,
+            lastName: rows[0].lastName,
+            otherName: rows[0].otherName,
+            email: rows[0].email,
+            phone: rows[0].phone,
+            username: rows[0].username,
+            registered: new Date(rows[0].registered).toDateString(),
+            isAdmin: rows[0].isAdmin
+          },
+        });
+      }
+
+      return res.status(400).json({
+        status: 400,
+        error: 'Sorry, your username or password is incorrect',
       });
+    } catch (error) {
+      console.log(error);
     }
-    return res.status(400).json({
-      status: 400,
-      error: 'User not found!',
-    });
   }
 }
 
