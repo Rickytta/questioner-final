@@ -10,7 +10,6 @@ app.use(express.urlencoded({
   extended: false
 }));
 
-// app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/auth', usersRouter);
 app.use('/api/v1/meetups', meetupsRouter);
 app.use('/api/v1/questions', questionsRouter);

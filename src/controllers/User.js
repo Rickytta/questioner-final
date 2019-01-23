@@ -1,5 +1,5 @@
-import Validate from '../helpers/validate';
-import db from '../models/db'
+import db from '../models/db';
+import Validate from '../helpers/Validate';
 
 class User {
   /* signup */
