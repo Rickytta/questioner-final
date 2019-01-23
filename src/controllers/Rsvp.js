@@ -1,116 +1,102 @@
-import rsvps from '../models/rsvps';
-import Meetup from '../controllers/Meetup';
-import validate from '../helpers/validate';
+import db from '../models/db'
 
 
 class Rsvp {
-  /* Check Rsvp */
-  static checkRsvp(rsvpId) {
-    let checkRsvp = {};
-    for (const key in rsvps) {
-      if (rsvps[key].id === rsvpId) {
-        checkRsvp = rsvps[key];
-        break;
-      }
-    }
-
-    return checkRsvp;
-  }
-
   /* Create a rsvp */
-  static create(req, res) {
-    // check if meetup exists
-    const checkMeetup = Meetup.checkMeetup(parseInt(req.params.meetupId));
-    if (Object.keys(checkMeetup).length === 0) {
+  static async create(req, res) {
+    const text = `INSERT INTO
+      rsvps(meetup, "createdBy", response)
+      VALUES($1, $2, $3) RETURNING *`;
+
+    const values = [
+      req.params.meetupId,
+      req.body.createdBy,
+      req.body.response
+    ];
+
+    try {
+      const {
+        rows
+      } = await db.query(text, values);
+
+      if (rows.length > 0) {
+        return res.status(201).json({
+          status: 201,
+          data: rows[0],
+        });
+      }
+
       return res.status(400).json({
         status: 400,
-        error: 'Meetup not found!',
+        error: 'rsvp not posted!',
       });
+    } catch (error) {
+      console.log(error);
     }
-
-    const newRsvp = {
-      id: Math.ceil(Math.random() + 100),
-      meetup: req.params.meetupId,
-      user: req.body.user,
-      response: req.body.response
-    };
-
-    rsvps.push(newRsvp);
-
-    const isCreated = Rsvp.checkRsvp(newRsvp.id);
-
-    if (Object.keys(isCreated).length > 0) {
-      return res.status(201).json({
-        status: 201,
-        data: isCreated,
-      });
-    }
-    return res.status(400).json({
-      status: 400,
-      error: 'Rsvp not posted!',
-    });
   }
   /* get all rsvps */
-  static getAllRsvps(req, res) {
-    if (Object.keys(rsvps).length > 0) {
-      return res.status(200).json({
-        status: 200,
-        data: rsvps,
-      });
-    }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'Rsvps not found!',
-    });
-  }
-  /* get by id */
-  static getRsvp(req, res) {
-    let rsvp = {};
-
-    for (let key in rsvps) {
-      if (rsvps[key].id === parseInt(req.params.rsvpId)) {
-        rsvp = rsvps[key];
-        break;
+  static async getAllRsvps(req, res) {
+    try {
+      const {
+        rows
+      } = await db.query('SELECT * FROM rsvps');
+      if (rows.length > 0) {
+        return res.status(200).json({
+          status: 200,
+          data: rows[0],
+        });
       }
-    }
-
-    if (Object.keys(rsvp).length > 0) {
-      return res.status(200).json({
-        status: 200,
-        data: rsvp,
+      return res.status(400).json({
+        status: 400,
+        error: 'rsvps not found!',
       });
+    } catch (error) {
+      console.log(error);
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'Rsvp not found!',
-    });
+  }
+  /* get rsvp by id */
+  static async getRsvp(req, res) {
+    try {
+      const {
+        rows
+      } = await db.query('SELECT * FROM rsvps WHERE id=$1', [req.params.rsvpId]);
+      if (rows.length > 0) {
+        return res.status(200).json({
+          status: 200,
+          data: rows[0],
+        });
+      }
+      return res.status(400).json({
+        status: 400,
+        error: 'rsvp not found!',
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   /* delete a rsvp */
-  static deleteRsvp(req, res) {
-    const rsvpsNumber = rsvps.length;
-    let NewRsvpsNumber = rsvps.length;
-    for (let i in rsvps) {
-      if (rsvps[i].id === parseInt(req.params.rsvpId)) {
-        rsvps.splice(i, 1);
-        NewRsvpsNumber -= 1;
-        break;
+  static async deleteRsvp(req, res) {
+    try {
+      const {
+        rows
+      } = await db.query('DELETE FROM rsvps WHERE id=$1 RETURNING *', [req.params.rsvpId]);
+
+      if (rows.length > 0) {
+        return res.status(200).json({
+          status: 200,
+          data: rows[0],
+          message: 'rsvp deleted',
+        });
       }
-    }
 
-    if (NewRsvpsNumber < rsvpsNumber) {
-      return res.status(200).json({
-        status: 200,
-        data: 'rsvp deleted',
+      return res.status(400).json({
+        status: 400,
+        error: 'rsvp not deleted!',
       });
+    } catch (error) {
+      console.log(error)
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'Rsvp not deleted!',
-    });
   }
 }
 export default Rsvp;
