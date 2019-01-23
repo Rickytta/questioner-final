@@ -1,5 +1,5 @@
-import meetups from '../models/meetups';
 import Validate from '../helpers/validate';
+import db from '../models/db'
 
 class Meetup {
   /* Checking if the Meetup exixts */
@@ -17,7 +17,7 @@ class Meetup {
     return checkMeetup;
   }
   /* create */
-  static create(req, res) {
+  static async create(req, res) {
     // Validate inputs
     let checkInputs = [];
     checkInputs.push(Validate.title(req.body.location, true));
@@ -31,31 +31,50 @@ class Meetup {
         });
       }
     }
-    const newMeetup = {
-      id: Math.ceil(Math.random() * 100),
-      createdOn: Date.now(),
-      location: req.body.location,
-      images: req.body.images,
-      topic: req.body.topic,
-      happeningOn: Date.parse(new Date(req.body.happeningOn)),
-      tags: req.body.tags
-    };
 
-    meetups.push(newMeetup);
+    const text = `INSERT INTO
+      meetups(location, images, topic, "happeningOn", tags)
+      VALUES($1, $2, $3, $4, $5) RETURNING *`;
 
-    const isCreated = Meetup.checkMeetup(newMeetup.id);
+    const values = [
+      req.body.location,
+      req.body.images,
+      req.body.topic,
+      new Date(req.body.happeningOn),
+      req.body.tags
+    ];
 
-    if (Object.keys(isCreated).length > 0) {
-      return res.status(201).json({
-        status: 201,
-        data: isCreated,
+    try {
+      const checkMeetup = await db.query('SELECT * FROM meetups WHERE location=$1 AND topic=$2 AND "happeningOn"=$3', [req.body.location, req.body.topic, new Date(req.body.happeningOn)]);
+
+      if (checkMeetup.rows.length > 0) {
+        return res.status(200).json({
+          status: 200,
+          error: 'Sorry, this meetup already exists',
+        });
+      }
+
+      const {
+        rows
+      } = await db.query(text, values);
+
+      if (rows.length > 0) {
+        rows[0].createdOn = new Date(rows[0].createdOn).toDateString();
+        rows[0].happeningOn = new Date(rows[0].happeningOn).toDateString();
+
+        return res.status(201).json({
+          status: 201,
+          data: rows[0],
+        });
+      }
+
+      return res.status(400).json({
+        status: 400,
+        error: 'Meetup not created!',
       });
+    } catch (error) {
+      console.log(error);
     }
-
-    return res.status(400).json({
-      status: 400,
-      error: 'Meetup not created!',
-    });
   }
   /* get all meetups */
   static getAllMeetups(req, res) {
