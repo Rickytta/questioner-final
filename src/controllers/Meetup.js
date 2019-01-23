@@ -1,21 +1,7 @@
-import Validate from '../helpers/validate';
-import db from '../models/db'
+import db from '../models/db';
+import Validate from '../helpers/Validate';
 
 class Meetup {
-  /* Checking if the Meetup exixts */
-  static checkMeetup(meetupId) {
-    let checkMeetup = {};
-    for (const key in meetups) {
-      if (meetups[key].id === meetupId) {
-        checkMeetup = meetups[key];
-        checkMeetup.createdOn = new Date(checkMeetup.createdOn).toDateString();
-        checkMeetup.happeningOn = new Date(checkMeetup.happeningOn).toDateString();
-        break;
-      }
-    }
-
-    return checkMeetup;
-  }
   /* create */
   static async create(req, res) {
     // Validate inputs
@@ -125,7 +111,6 @@ class Meetup {
       console.log(error);
     }
   }
-
   /* get upcoming meetups */
   static async getUpcomingMeetups(req, res) {
     try {
@@ -152,7 +137,6 @@ class Meetup {
       console.log(error);
     }
   }
-
   /* delete a meetup */
   static async deleteMeetup(req, res) {
     try {
