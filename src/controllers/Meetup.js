@@ -4,6 +4,12 @@ import Validate from '../helpers/Validate';
 class Meetup {
   /* create */
   static async create(req, res) {
+    // admin only
+    if (req.userType !== 'admin') {
+      return res.status(401).json({
+        error: 'unauthorized access',
+      });
+    }
     // Validate inputs
     let checkInputs = [];
     checkInputs.push(Validate.title(req.body.location, true));
@@ -139,6 +145,12 @@ class Meetup {
   }
   /* delete a meetup */
   static async deleteMeetup(req, res) {
+    // admin only
+    if (req.userType !== 'admin') {
+      return res.status(401).json({
+        error: 'unauthorized access',
+      });
+    }
     try {
       const {
         rows
