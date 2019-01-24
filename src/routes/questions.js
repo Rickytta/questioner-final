@@ -5,7 +5,6 @@ import verifyToken from '../middlewares/verifyToken';
 
 const router = express.Router();
 
-router.get('/', verifyToken, Question.getAllQuestions);
 router.get('/:questionId', verifyToken, Question.getQuestion);
 router.delete('/:questionId', verifyToken, Question.deleteQuestion);
 router.patch('/:questionId/upvote', verifyToken, Question.voteQuestion);

@@ -1,16 +1,17 @@
 import db from '../models/db'
+import Validate from '../helpers/Validate';
 
 
 class Rsvp {
   /* Create a rsvp */
   static async create(req, res) {
     const text = `INSERT INTO
-      rsvps(meetup, "createdBy", response)
+      rsvps("meetupId", "createdBy", response)
       VALUES($1, $2, $3) RETURNING *`;
 
     const values = [
       req.params.meetupId,
-      req.body.createdBy,
+      req.userId,
       req.body.response
     ];
 
@@ -83,16 +84,15 @@ class Rsvp {
       } = await db.query('DELETE FROM rsvps WHERE id=$1 RETURNING *', [req.params.rsvpId]);
 
       if (rows.length > 0) {
-        return res.status(200).json({
-          status: 200,
-          data: rows[0],
+        return res.json({
+          status: 204,
           message: 'rsvp deleted',
         });
       }
 
       return res.status(400).json({
         status: 400,
-        error: 'rsvp not deleted!',
+        error: 'rsvp doesn\'t exist',
       });
     } catch (error) {
       console.log(error)

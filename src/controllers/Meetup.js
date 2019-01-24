@@ -157,16 +157,15 @@ class Meetup {
       } = await db.query('DELETE FROM meetups WHERE id=$1 RETURNING *', [req.params.meetupId]);
 
       if (rows.length > 0) {
-        return res.status(200).json({
-          status: 200,
-          data: rows[0],
+        return res.json({
+          status: 204,
           message: 'meetup deleted',
         });
       }
 
       return res.status(400).json({
         status: 400,
-        error: 'Meetup not deleted!',
+        error: 'meetup doesn\'t exist',
       });
     } catch (error) {
       console.log(error)

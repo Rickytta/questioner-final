@@ -19,17 +19,26 @@ class Question {
     }
 
     const text = `INSERT INTO
-      questions("createdBy", meetup, title, body)
+      questions("createdBy", "meetupId", title, body)
       VALUES($1, $2, $3, $4) RETURNING *`;
 
     const values = [
-      req.body.createdBy,
+      req.userId,
       req.params.meetupId,
       req.body.title,
       req.body.body,
     ];
 
     try {
+      const checkMeetup = await db.query('SELECT * FROM meetups WHERE id=$1', [req.params.meetupId]);
+
+      if (checkMeetup.rows.length <= 0) {
+        return res.status(200).json({
+          status: 200,
+          error: 'Sorry, this meetup doesn\'t exist',
+        });
+      }
+
       const {
         rows
       } = await db.query(text, values);
@@ -56,7 +65,7 @@ class Question {
     try {
       const {
         rows
-      } = await db.query('SELECT * FROM questions');
+      } = await db.query('SELECT * FROM questions WHERE "meetupId"=$1', [req.params.meetupId]);
       if (rows.length > 0) {
         let questions = [];
         rows.forEach(question => {
@@ -106,16 +115,15 @@ class Question {
       } = await db.query('DELETE FROM questions WHERE id=$1 RETURNING *', [req.params.questionId]);
 
       if (rows.length > 0) {
-        return res.status(200).json({
-          status: 200,
-          data: rows[0],
+        return res.json({
+          status: 204,
           message: 'question deleted',
         });
       }
 
       return res.status(400).json({
         status: 400,
-        error: 'question not deleted!',
+        error: 'question doesn\'t exist',
       });
     } catch (error) {
       console.log(error)
@@ -124,19 +132,30 @@ class Question {
 
   /* vote a question */
   static async voteQuestion(req, res) {
-    const text = 'INSERT INTO votes(question, "userId", upvotes, downvotes) VALUES($1, $2, $3, $4) RETURNING *';
+    const upvote = req.url.search('/upvote') > 0 ? 1 : 0;
+    const downvote = req.url.search('/downvote') > 0 ? 1 : 0;
+    const text = 'INSERT INTO votes("questionId", "userId", upvotes, downvotes) VALUES($1, $2, $3, $4) RETURNING *';
     const values = [
       req.params.questionId,
-      req.body.userId,
-      req.body.upvote || 0,
-      req.body.downvote || 0
+      req.userId,
+      upvote,
+      downvote
     ];
     try {
-      const checkVote = await db.query('SELECT * FROM votes WHERE question=$1 AND "userId"=$2', [req.params.questionId, req.body.userId]);
+      const checkQuestion = await db.query('SELECT * FROM questions WHERE id=$1', [req.params.questionId]);
+
+      if (checkQuestion.rows.length <= 0) {
+        return res.status(200).json({
+          status: 200,
+          error: 'Sorry, this question doesn\'t exist',
+        });
+      }
+
+      const checkVote = await db.query('SELECT * FROM votes WHERE "questionId"=$1 AND "userId"=$2', [req.params.questionId, req.userId]);
 
       if (checkVote.rows.length > 0) {
-        if ((checkVote.rows[0].upvotes && req.body.downvote) || (checkVote.rows[0].downvotes && req.body.upvote)) {
-          await db.query('DELETE FROM votes WHERE question=$1 AND "userId"=$2', [req.params.questionId, req.body.userId])
+        if ((checkVote.rows[0].upvotes && downvote) || (checkVote.rows[0].downvotes && upvote)) {
+          await db.query('DELETE FROM votes WHERE "questionId"=$1 AND "userId"=$2', [req.params.questionId, req.userId])
         } else {
           return res.status(200).json({
             status: 200,
@@ -150,8 +169,8 @@ class Question {
 
       if (rows.length > 0) {
 
-        rows[0].upvotes = (await db.query('SELECT * FROM votes WHERE question=$1 AND upvotes > 0', [req.params.questionId])).rowCount;
-        rows[0].downvotes = (await db.query('SELECT * FROM votes WHERE question=$1 AND downvotes > 0', [req.params.questionId])).rowCount;
+        rows[0].upvotes = (await db.query('SELECT * FROM votes WHERE "questionId"=$1 AND upvotes > 0', [req.params.questionId])).rowCount;
+        rows[0].downvotes = (await db.query('SELECT * FROM votes WHERE "questionId"=$1 AND downvotes > 0', [req.params.questionId])).rowCount;
 
         return res.status(200).json({
           status: 200,
