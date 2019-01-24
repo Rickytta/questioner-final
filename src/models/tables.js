@@ -70,7 +70,7 @@ const create = () => {
         id SERIAL PRIMARY KEY,
         "createdOn" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         "createdBy" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
-        meetup INT NOT NULL REFERENCES meetups(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        "meetupId" INT NOT NULL REFERENCES meetups(id) ON DELETE CASCADE ON UPDATE CASCADE,
         title VARCHAR(100) NOT NULL,
         body TEXT NULL
       )`;
@@ -78,7 +78,7 @@ const create = () => {
   const rsvpsTable = `CREATE TABLE IF NOT EXISTS
       rsvps(
         id SERIAL PRIMARY KEY,
-        meetup INT NOT NULL REFERENCES meetups(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        "meetupId" INT NOT NULL REFERENCES meetups(id) ON DELETE CASCADE ON UPDATE CASCADE,
         "createdBy" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
         response VARCHAR(15) NOT NULL
       )`;
@@ -86,7 +86,7 @@ const create = () => {
   const votesTable = `CREATE TABLE IF NOT EXISTS
       votes(
         id SERIAL PRIMARY KEY,
-        question INT NOT NULL REFERENCES questions(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        "questionId" INT NOT NULL REFERENCES questions(id) ON DELETE CASCADE ON UPDATE CASCADE,
         "userId" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
         upvotes INT NOT NULL DEFAULT 0,
         downvotes INT NOT NULL DEFAULT 0
@@ -95,7 +95,7 @@ const create = () => {
   const commentsTable = `CREATE TABLE IF NOT EXISTS
       comments(
         id SERIAL PRIMARY KEY,
-        question INT NOT NULL REFERENCES questions(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        "questionId" INT NOT NULL REFERENCES questions(id) ON DELETE CASCADE ON UPDATE CASCADE,
         "userId" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
         comment TEXT NULL,
         "createdOn" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

@@ -13,5 +13,6 @@ router.get('/:meetupId', verifyToken, Meetup.getMeetup);
 router.delete('/:meetupId', verifyToken, Meetup.deleteMeetup);
 router.post('/:meetupId/rsvps', verifyToken, Rsvps.create);
 router.post('/:meetupId/questions', verifyToken, Question.create);
+router.get('/:meetupId/questions', verifyToken, Question.getAllQuestions);
 
 export default router;
