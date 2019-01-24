@@ -2,6 +2,7 @@ import db from '../models/db';
 import Validate from '../helpers/Validate';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs'
 
 dotenv.config();
 
@@ -39,7 +40,7 @@ class User {
       req.body.email,
       req.body.phone,
       req.body.username,
-      req.body.password,
+      bcrypt.hashSync(req.body.password, 8),
       req.body.isAdmin
     ];
 
@@ -63,18 +64,10 @@ class User {
         rows
       } = await db.query(text, values);
       if (rows.length > 0) {
-        const userType = rows[0].isAdmin ? 'admin' : 'normal';
-        const token = jwt.sign({
-          userId: rows[0].id,
-          userType
-        }, process.env.SECRET_KEY, {
-          expiresIn: 86400, // expires in 24 hours
-        });
         rows[0].registered = new Date(rows[0].registered).toDateString();
         return res.status(201).json({
           status: 201,
           data: rows[0],
-          token,
         });
       }
     } catch (error) {
@@ -86,7 +79,8 @@ class User {
   static async login(req, res) {
     // Validate inputs
     let checkInput = false;
-    checkInput = Validate.name(req.body.username, true);
+    checkInput = Validate.email(req.body.email, true);
+
     if (checkInput.isValid === false) {
       return res.status(400).json({
         status: 400,
@@ -97,31 +91,35 @@ class User {
     try {
       const {
         rows
-      } = await db.query('SELECT * FROM users WHERE username=$1 AND password=$2', [req.body.username, req.body.password]);
+      } = await db.query('SELECT * FROM users WHERE email=$1', [req.body.email]);
 
       if (rows.length > 0) {
-        const userType = rows[0].isAdmin ? 'admin' : 'normal';
-        const token = jwt.sign({
-          userId: rows[0].id,
-          userType
-        }, process.env.SECRET_KEY, {
-          expiresIn: 86400, // expires in 24 hours
-        });
-        return res.status(200).json({
-          status: 200,
-          data: {
-            id: rows[0].id,
-            firstName: rows[0].firstName,
-            lastName: rows[0].lastName,
-            otherName: rows[0].otherName,
-            email: rows[0].email,
-            phone: rows[0].phone,
-            username: rows[0].username,
-            registered: new Date(rows[0].registered).toDateString(),
-            isAdmin: rows[0].isAdmin
-          },
-          token,
-        });
+        for (let i = 0; i < rows.length; i += 1) {
+          if (bcrypt.compareSync(req.body.password, rows[i].password)) {
+            const userType = rows[i].isAdmin ? 'admin' : 'normal';
+            const token = jwt.sign({
+              userId: rows[i].id,
+              userType
+            }, process.env.SECRET_KEY, {
+              expiresIn: 86400, // expires in 24 hours
+            });
+            return res.status(200).json({
+              status: 200,
+              data: {
+                id: rows[i].id,
+                firstName: rows[i].firstName,
+                lastName: rows[i].lastName,
+                otherName: rows[i].otherName,
+                email: rows[i].email,
+                phone: rows[i].phone,
+                username: rows[i].username,
+                registered: new Date(rows[i].registered).toDateString(),
+                isAdmin: rows[i].isAdmin
+              },
+              token,
+            });
+          }
+        }
       }
 
       return res.status(400).json({
