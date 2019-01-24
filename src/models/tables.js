@@ -96,7 +96,9 @@ const create = () => {
       comments(
         id SERIAL PRIMARY KEY,
         question INT NOT NULL REFERENCES questions(id) ON DELETE CASCADE ON UPDATE CASCADE,
-        comment TEXT NULL
+        "userId" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        comment TEXT NULL,
+        "createdOn" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`;
 
   const createQueries = `${usersTable}; ${meetupsTable}; ${questionsTable}; ${rsvpsTable}; ${votesTable}; ${commentsTable};`;
