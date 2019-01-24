@@ -1,5 +1,4 @@
 import db from '../models/db'
-import Validate from '../helpers/Validate';
 
 
 class Comment {
@@ -10,7 +9,7 @@ class Comment {
       VALUES($1, $2, $3) RETURNING *`;
 
     const values = [
-      req.body.questionId,
+      req.params.questionId,
       req.body.userId,
       req.body.comment
     ];
@@ -21,7 +20,7 @@ class Comment {
       } = await db.query(text, values);
 
       if (rows.length > 0) {
-        const question = (await db.query('SELECT * FROM questions WHERE id=$1', [req.body.questionId])).rows[0];
+        const question = (await db.query('SELECT * FROM questions WHERE id=$1', [req.params.questionId])).rows[0];
         rows[0].title = question.title;
         rows[0].body = question.body;
         rows[0].createdOn = new Date(rows[0].createdOn).toDateString();
@@ -45,7 +44,7 @@ class Comment {
     try {
       const {
         rows
-      } = await db.query('SELECT * FROM comments');
+      } = await db.query('SELECT * FROM comments WHERE question=$1', [req.params.questionId]);
       if (rows.length > 0) {
         let comments = [];
         rows.forEach(comment => {
