@@ -1,12 +1,12 @@
 import express from 'express';
 import Rsvp from '../controllers/Rsvp';
+import verifyToken from '../middlewares/verifyToken';
 
 
 const router = express.Router();
 
-router.post('/', Rsvp.create);
-router.get('/', Rsvp.getAllRsvps);
-router.get('/:questionId', Rsvp.getRsvp);
-router.delete('/:questionId', Rsvp.deleteRsvp);
+router.get('/', verifyToken, Rsvp.getAllRsvps);
+router.get('/:rsvpId', verifyToken, Rsvp.getRsvp);
+router.delete('/:rsvpId', verifyToken, Rsvp.deleteRsvp);
 
 export default router;
