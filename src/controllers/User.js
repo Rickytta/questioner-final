@@ -1,5 +1,9 @@
 import db from '../models/db';
 import Validate from '../helpers/Validate';
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+
+dotenv.config();
 
 class User {
   /* signup */
@@ -59,10 +63,18 @@ class User {
         rows
       } = await db.query(text, values);
       if (rows.length > 0) {
+        const userType = rows[0].isAdmin ? 'admin' : 'normal';
+        const token = jwt.sign({
+          userId: rows[0].id,
+          userType
+        }, process.env.SECRET_KEY, {
+          expiresIn: 86400, // expires in 24 hours
+        });
         rows[0].registered = new Date(rows[0].registered).toDateString();
         return res.status(201).json({
           status: 201,
           data: rows[0],
+          token,
         });
       }
     } catch (error) {
@@ -89,6 +101,13 @@ class User {
       } = await db.query('SELECT * FROM users WHERE username=$1 AND password=$2', [req.body.username, req.body.password]);
 
       if (rows.length > 0) {
+        const userType = rows[0].isAdmin ? 'admin' : 'normal';
+        const token = jwt.sign({
+          userId: rows[0].id,
+          userType
+        }, process.env.SECRET_KEY, {
+          expiresIn: 86400, // expires in 24 hours
+        });
         return res.status(200).json({
           status: 200,
           data: {
@@ -102,6 +121,7 @@ class User {
             registered: new Date(rows[0].registered).toDateString(),
             isAdmin: rows[0].isAdmin
           },
+          token,
         });
       }
 
