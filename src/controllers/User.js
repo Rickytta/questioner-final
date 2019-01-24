@@ -87,7 +87,6 @@ class User {
     // Validate inputs
     let checkInput = false;
     checkInput = Validate.name(req.body.username, true);
-
     if (checkInput.isValid === false) {
       return res.status(400).json({
         status: 400,
