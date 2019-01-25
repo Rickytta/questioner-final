@@ -1,5 +1,5 @@
 import db from '../models/db';
-import Validate from '../helpers/Validate';
+import Validate from '../helpers/validate';
 
 class Meetup {
   /* create */

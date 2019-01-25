@@ -1,5 +1,5 @@
 import db from '../models/db'
-import Validate from '../helpers/Validate';
+import validate from '../helpers/validate';
 
 
 class Comment {
