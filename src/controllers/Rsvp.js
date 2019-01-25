@@ -1,5 +1,4 @@
 import db from '../models/db'
-import Validate from '../helpers/Validate';
 
 
 class Rsvp {

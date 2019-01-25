@@ -1,5 +1,4 @@
 import db from '../models/db'
-import validate from '../helpers/validate';
 
 
 class Comment {
