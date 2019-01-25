@@ -12,7 +12,10 @@ class Validate {
     }
     return {
       isValid: false,
-      error: 'Please enter valid characters! Only alphabetic characters allowed.',
+
+      error: 'Please enter valid characters! Only alphabetic characters allowed.!!',
+
+
     };
   }
 
@@ -29,7 +32,9 @@ class Validate {
     }
     return {
       isValid: false,
-      error: 'Please enter a valid phone number',
+
+      error: 'Please enter a valid phone number!',
+
     };
   }
 
