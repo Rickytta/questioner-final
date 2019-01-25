@@ -1,5 +1,5 @@
 import db from '../models/db';
-import Validate from '../helpers/validate';
+import Validate from '../helpers/Validate';
 
 class Question {
   /* Create a question */
