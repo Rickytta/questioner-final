@@ -2,7 +2,7 @@ import db from '../models/db';
 import Validate from '../helpers/Validate';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 

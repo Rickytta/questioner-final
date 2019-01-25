@@ -4,8 +4,8 @@
   "description": "An app that allow users to ask questions on meetups ",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --compilers js:babel-register src/tests/*.js",
-    "cover": "NODE_ENV=test istanbul cover _mocha -- --compilers js:babel-register src/tests/meetups.js",
+    "test": "NODE_ENV=test mocha --compilers js:babel-register src/tests/index.js",
+    "cover": "NODE_ENV=test istanbul cover _mocha -- --compilers js:babel-register src/tests/index.js",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "build": "babel src/server.js --out-dir build",
     "start": "babel-node src/server.js",

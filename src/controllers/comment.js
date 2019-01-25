@@ -1,5 +1,4 @@
 import db from '../models/db'
-import Validate from '../helpers/Validate';
 
 
 class Comment {
@@ -104,7 +103,7 @@ class Comment {
       if (rows.length > 0) {
         return res.json({
           status: 204,
-          message: 'comment deleted',
+          message: 'comment deleted !',
         });
       }
 
