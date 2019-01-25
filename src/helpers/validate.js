@@ -1,5 +1,4 @@
 class Validate {
-  /* validating name input */
   static name(input, required) {
     if (!input && !required) {
       return {
@@ -16,7 +15,7 @@ class Validate {
       error: 'Please enter valid characters! Only alphabetic characters allowed.',
     };
   }
-  /* validating phone inputs */
+
   static phone(input, required) {
     if (!input && !required) {
       return {
@@ -33,7 +32,7 @@ class Validate {
       error: 'Please enter a valid phone number',
     };
   }
-  /* validating email inputs */
+
   static email(input, required) {
     if (!input && !required) {
       return {
@@ -48,7 +47,7 @@ class Validate {
       error: 'Please enter a valid email address',
     };
   }
-  /* validating title & location inputs */
+
   static title(input, required) {
     if (!input && !required) {
       return {
