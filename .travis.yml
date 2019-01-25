@@ -1,6 +1,8 @@
 env:
   global:
+    - SECRET_KEY=123456789
     - CC_TEST_REPORTER_ID=4d2328c4c89052d7577ffa465986ae92f74c6118433aa0b32a874a8552d3f249
+    - DATABASE_URL_test=postgres://postgres@localhost:5432/questioner_test
 language: node_js
 node_js:
   - "stable"
@@ -10,7 +12,11 @@ addons:
 cache:
   directories:
     - "node_modules"
+services:
+  - postgresql
 before_script:
+  - psql -c 'CREATE DATABASE questioner_test;' -U postgres
+  - NODE_ENV=test npm run createTables
   - npm install --save-dev coveralls
   - npm install --save-dev istanbul@1.1.0-alpha.1
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
