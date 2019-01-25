@@ -1,4 +1,5 @@
 class Validate {
+  // validate name
   static name(input, required) {
     if (!input && !required) {
       return {
@@ -12,7 +13,7 @@ class Validate {
     }
     return {
       isValid: false,
-      error: 'Please enter valid characters! Only alphabetic characters allowed.',
+      error: 'Please enter valid characters! Only alphabetic characters allowed.!!',
     };
   }
 
@@ -29,7 +30,7 @@ class Validate {
     }
     return {
       isValid: false,
-      error: 'Please enter a valid phone number',
+      error: 'Please enter a valid phone number!',
     };
   }
 
