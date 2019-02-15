@@ -1,0 +1,931 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Crowd-source questions for a meetup. Questioner helps the meetup organizer prioritize questions to be answered. Other users can vote on asked questions and they bubble to the top or bottom of the log. You can find out more about  Questioner at [https://cop1fab-questioner.herokuapp.com](https://cop1fab-questioner.herokuapp.com)",
+    "version": "1.0.0",
+    "title": "QUESTIONER",
+    "contact": {
+      "email": "bienaimecopain@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "cop1fab-questioner.herokuapp.com",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "auth",
+      "description": "User Authentication"
+    },
+    {
+      "name": "meetups",
+      "description": "Meetups routes"
+    },
+    {
+      "name": "questions",
+      "description": "Questions routes"
+    },
+    {
+      "name": "rsvps",
+      "description": "Reservations routes"
+    },
+    {
+      "name": "comments",
+      "description": "Comments routes"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Create a user account",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful"
+          },
+          "400": {
+            "description": "Invalid information supplied"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Authenticate a user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successful"
+          },
+          "400": {
+            "description": "Invalid username or password supplied"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/meetups": {
+      "post": {
+        "tags": [
+          "meetups"
+        ],
+        "summary": "Create a new meetup",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create an Meetup object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Meetup"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Invalid inputs"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "meetups"
+        ],
+        "summary": "Get a list of all meetups",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/meetups/upcoming": {
+      "get": {
+        "tags": [
+          "meetups"
+        ],
+        "summary": "Get a list of all upcoming meetups",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/meetups/{meetupId}": {
+      "get": {
+        "tags": [
+          "meetups"
+        ],
+        "summary": "Get details of a specific meetup",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "meetupId",
+            "in": "path",
+            "description": "ID of a meetup",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "meetups"
+        ],
+        "summary": "Delete a specific meetup",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "meetupId",
+            "in": "path",
+            "description": "ID of a meetup",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/meetups/{meetupId}/rsvps": {
+      "post": {
+        "tags": [
+          "meetups"
+        ],
+        "summary": "Reserve a place at the meetup",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "meetupId",
+            "in": "path",
+            "description": "ID of the meetup",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReserveMeetup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/meetups/{meetupId}/questions": {
+      "post": {
+        "tags": [
+          "meetups"
+        ],
+        "summary": "Post a question on a specific meetup",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "meetupId",
+            "in": "path",
+            "description": "ID of the meetup",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PostQuestion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "meetups"
+        ],
+        "summary": "Get questions on a specific meetup",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "meetupId",
+            "in": "path",
+            "description": "ID of a meetup",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/questions/{questionId}": {
+      "get": {
+        "tags": [
+          "questions"
+        ],
+        "summary": "Get a specific question",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "questionId",
+            "in": "path",
+            "description": "ID of a question",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "questions"
+        ],
+        "summary": "Delete a specific question",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "questionId",
+            "in": "path",
+            "description": "ID of a question",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/questions/{questionId}/upvote": {
+      "patch": {
+        "tags": [
+          "questions"
+        ],
+        "summary": "Upvote a specific question",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "questionId",
+            "in": "path",
+            "description": "ID of a question",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/questions/{questionId}/downvote": {
+      "patch": {
+        "tags": [
+          "questions"
+        ],
+        "summary": "Downvote a specific question",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "questionId",
+            "in": "path",
+            "description": "ID of a question",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/questions/{questionId}/comments": {
+      "post": {
+        "tags": [
+          "questions"
+        ],
+        "summary": "Post a comment on specific question",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "questionId",
+            "in": "path",
+            "description": "ID of the question",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PostComment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "questions"
+        ],
+        "summary": "Get all comments on specific question",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "questionId",
+            "in": "path",
+            "description": "ID of the question",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/rsvps": {
+      "get": {
+        "tags": [
+          "rsvps"
+        ],
+        "summary": "Get a list of all reservations",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/rsvps/{rsvpId}": {
+      "get": {
+        "tags": [
+          "rsvps"
+        ],
+        "summary": "Get details of a specific reservation",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "rsvpId",
+            "in": "path",
+            "description": "ID of a reservation",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "rsvps"
+        ],
+        "summary": "Delete a specific reservation",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "rsvpId",
+            "in": "path",
+            "description": "ID of a reservation",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/comments": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Get a list of all comments",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "/comments/{commentId}": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Get a specific comment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "ID of a comment",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Delete a specific comment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "ID of a comment",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful"
+          },
+          "401": {
+            "description": "Not logged in"
+          },
+          "500": {
+            "description": "Failed to authenticate token"
+          },
+          "default": {
+            "description": "Error message"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "user_jsonwetoken": {
+      "type": "apiKey",
+      "name": "access-token",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Login": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "otherName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registered": {
+          "type": "string"
+        },
+        "isAdmin": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Meetup": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string"
+        },
+        "images": {
+          "type": "array",
+          "items": {}
+        },
+        "topic": {
+          "type": "string"
+        },
+        "happeningOn": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {}
+        }
+      }
+    },
+    "ReserveMeetup": {
+      "type": "object",
+      "properties": {
+        "meetupId": {
+          "type": "integer"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "response": {
+          "type": "string"
+        }
+      }
+    },
+    "PostQuestion": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "integer"
+        },
+        "meetupId": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        }
+      }
+    },
+    "PostComment": {
+      "type": "object",
+      "properties": {
+        "questionId": {
+          "type": "integer"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "comment": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
